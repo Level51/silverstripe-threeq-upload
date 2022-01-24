@@ -7,12 +7,21 @@
       {{ message.content }}
     </div>
 
-    <template v-if="showPreview">
+    <template v-if="previewVisible">
       <FilePreview />
     </template>
 
-    <template v-if="!showPreview">
+    <template v-if="!previewVisible">
       <ThreeQSelect />
+
+      <div v-if="file" class="mt-4">
+        <a
+          class="btn btn-primary"
+          href=""
+          @click.prevent="showPreview" >
+          {{ $t('generic.cancel') }}
+        </a>
+      </div>
     </template>
 
     <input
@@ -43,11 +52,11 @@ export default {
     this.init();
   },
   computed: {
-    ...mapState(['payload', 'message', 'showPreview']),
+    ...mapState(['payload', 'message', 'previewVisible', 'file']),
     ...mapGetters(['value']),
   },
   methods: {
-    ...mapActions(['initStore']),
+    ...mapActions(['initStore', 'showPreview']),
     async init() {
       await this.initStore(this.serverPayload);
       this.setLocale();

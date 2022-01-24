@@ -46,11 +46,6 @@ export default {
       return this.payload.config.searchEndpoint;
     },
   },
-  created() {
-    if (this.file) {
-      this.term = this.file.title;
-    }
-  },
   methods: {
     selected(suggestion) {
       this.$store.dispatch('setFile', suggestion);

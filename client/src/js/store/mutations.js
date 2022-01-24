@@ -1,4 +1,5 @@
 import * as types from './mutation-types';
+import {SET_PREVIEW_VISBILITY} from "./mutation-types";
 
 export default {
   [types.SET_PAYLOAD](state, payload) {
@@ -10,7 +11,7 @@ export default {
   [types.SET_MESSAGE](state, message) {
     state.message = message;
   },
-  [types.SET_PREVIEW_STATE](state, previewState) {
-    state.showPreview = previewState;
+  [types.SET_PREVIEW_VISBILITY](state, isVisible) {
+    state.previewVisible = isVisible;
   },
 };

@@ -29,9 +29,9 @@ export default {
     });
   },
   showPreview({ commit }) {
-    commit(types.SET_PREVIEW_STATE, true);
+    commit(types.SET_PREVIEW_VISBILITY, true);
   },
   hidePreview({ commit }) {
-    commit(types.SET_PREVIEW_STATE, false);
+    commit(types.SET_PREVIEW_VISBILITY, false);
   },
 };

@@ -12367,11 +12367,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   showPreview: function showPreview(_ref5) {
     var commit = _ref5.commit;
-    commit(_mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PREVIEW_STATE, true);
+    commit(_mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PREVIEW_VISBILITY, true);
   },
   hidePreview: function hidePreview(_ref6) {
     var commit = _ref6.commit;
-    commit(_mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PREVIEW_STATE, false);
+    commit(_mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PREVIEW_VISBILITY, false);
   }
 });
 
@@ -12425,7 +12425,7 @@ var state = {
   payload: null,
   file: null,
   message: null,
-  showPreview: false
+  previewVisible: false
 };
 var store = new vuex__WEBPACK_IMPORTED_MODULE_4__["default"].Store({
   state: state,
@@ -12449,12 +12449,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SET_PAYLOAD": () => (/* binding */ SET_PAYLOAD),
 /* harmony export */   "SET_FILE": () => (/* binding */ SET_FILE),
 /* harmony export */   "SET_MESSAGE": () => (/* binding */ SET_MESSAGE),
-/* harmony export */   "SET_PREVIEW_STATE": () => (/* binding */ SET_PREVIEW_STATE)
+/* harmony export */   "SET_PREVIEW_VISBILITY": () => (/* binding */ SET_PREVIEW_VISBILITY)
 /* harmony export */ });
 var SET_PAYLOAD = 'SET_PAYLOAD';
 var SET_FILE = 'SET_FILE';
 var SET_MESSAGE = 'SET_MESSAGE';
-var SET_PREVIEW_STATE = 'SET_PREVIEW_STATE';
+var SET_PREVIEW_VISBILITY = 'SET_PREVIEW_VISBILITY';
 
 /***/ }),
 
@@ -12475,14 +12475,15 @@ var _types$SET_PAYLOAD$ty;
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_types$SET_PAYLOAD$ty = {}, _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PAYLOAD, function (state, payload) {
   state.payload = payload;
 }), _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_FILE, function (state, file) {
   state.file = file;
 }), _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_MESSAGE, function (state, message) {
   state.message = message;
-}), _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PREVIEW_STATE, function (state, previewState) {
-  state.showPreview = previewState;
+}), _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PREVIEW_VISBILITY, function (state, isVisible) {
+  state.previewVisible = isVisible;
 }), _types$SET_PAYLOAD$ty);
 
 /***/ }),
@@ -12603,6 +12604,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -12623,8 +12633,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     this.init();
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)(['payload', 'message', 'showPreview'])), (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapGetters)(['value'])),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)(['initStore'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)(['payload', 'message', 'previewVisible', 'file'])), (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapGetters)(['value'])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)(['initStore', 'showPreview'])), {}, {
     init: function init() {
       var _this = this;
 
@@ -12790,11 +12800,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.payload.config.searchEndpoint;
     }
   }),
-  created: function created() {
-    if (this.file) {
-      this.term = this.file.title;
-    }
-  },
   methods: {
     selected: function selected(suggestion) {
       this.$store.dispatch('setFile', suggestion);
@@ -34056,9 +34061,38 @@ var render = function () {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.showPreview ? [_c("FilePreview")] : _vm._e(),
+      _vm.previewVisible ? [_c("FilePreview")] : _vm._e(),
       _vm._v(" "),
-      !_vm.showPreview ? [_c("ThreeQSelect")] : _vm._e(),
+      !_vm.previewVisible
+        ? [
+            _c("ThreeQSelect"),
+            _vm._v(" "),
+            _vm.file
+              ? _c("div", { staticClass: "mt-4" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { href: "" },
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          return _vm.showPreview.apply(null, arguments)
+                        },
+                      },
+                    },
+                    [
+                      _vm._v(
+                        "\n        " +
+                          _vm._s(_vm.$t("generic.cancel")) +
+                          "\n      "
+                      ),
+                    ]
+                  ),
+                ])
+              : _vm._e(),
+          ]
+        : _vm._e(),
       _vm._v(" "),
       _c("input", {
         attrs: { type: "hidden", id: _vm.payload.id, name: _vm.payload.name },
@@ -48354,7 +48388,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Ändern"},"search":{"placeholder":"Datei suchen"}}');
+module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Ändern"},"search":{"placeholder":"Datei suchen"},"generic":{"cancel":"Abbrechen"}}');
 
 /***/ }),
 
