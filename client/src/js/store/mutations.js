@@ -10,4 +10,7 @@ export default {
   [types.SET_MESSAGE](state, message) {
     state.message = message;
   },
+  [types.SET_PREVIEW_STATE](state, previewState) {
+    state.showPreview = previewState;
+  },
 };

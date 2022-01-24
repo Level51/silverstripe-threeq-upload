@@ -56,5 +56,30 @@
   padding: 10px;
 }
 
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/less-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./client/src/js/components/FilePreview.vue?vue&type=style&index=0&lang=less& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************/
+.threeQUpload .threeQUpload-preview {
+  border: 1px solid #ced5e1;
+  display: flex;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-image {
+  width: 400px;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-image img {
+  display: block;
+  width: 100%;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-meta {
+  flex: 1 1 auto;
+  padding: 15px;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-meta > div:not(:last-child) {
+  margin-bottom: 10px;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-meta strong {
+  display: block;
+}
+
 
 /*# sourceMappingURL=threeqUpload.css.map*/

@@ -1,4 +1,12 @@
 {
+  "preview": {
+    "meta": {
+      "title": "Titel",
+      "name": "Dateiname",
+      "size": "Größe"
+    },
+    "changeCta": "Ändern"
+  },
   "search": {
     "placeholder": "Datei suchen"
   }

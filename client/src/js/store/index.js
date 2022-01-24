@@ -10,6 +10,7 @@ const state = {
   payload: null,
   file: null,
   message: null,
+  showPreview: false,
 };
 
 const store = new Vuex.Store({

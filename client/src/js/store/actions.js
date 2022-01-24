@@ -6,6 +6,7 @@ export default {
 
     if (payload.file) {
       dispatch('setFile', payload.file);
+      dispatch('showPreview');
     }
   },
   setFile({ commit }, file) {
@@ -26,5 +27,11 @@ export default {
       type: sanitizedType,
       content,
     });
+  },
+  showPreview({ commit }) {
+    commit(types.SET_PREVIEW_STATE, true);
+  },
+  hidePreview({ commit }) {
+    commit(types.SET_PREVIEW_STATE, false);
   },
 };

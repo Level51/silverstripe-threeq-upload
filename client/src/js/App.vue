@@ -7,7 +7,13 @@
       {{ message.content }}
     </div>
 
-    <ThreeQSelect />
+    <template v-if="showPreview">
+      <FilePreview />
+    </template>
+
+    <template v-if="!showPreview">
+      <ThreeQSelect />
+    </template>
 
     <input
       type="hidden"
@@ -21,6 +27,7 @@
 import axios from 'axios';
 import { mapState, mapGetters, mapActions } from 'vuex';
 import ThreeQSelect from './components/Select.vue';
+import FilePreview from './components/FilePreview.vue';
 import 'src/icons';
 import * as locales from 'src/lang';
 
@@ -31,12 +38,12 @@ export default {
       required: true,
     },
   },
-  components: { ThreeQSelect },
+  components: { ThreeQSelect, FilePreview },
   created() {
     this.init();
   },
   computed: {
-    ...mapState(['payload', 'message']),
+    ...mapState(['payload', 'message', 'showPreview']),
     ...mapGetters(['value']),
   },
   methods: {

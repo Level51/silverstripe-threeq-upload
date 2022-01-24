@@ -2,7 +2,7 @@
 
 namespace Level51\ThreeQ;
 
-use SilverStripe\Dev\Debug;
+use SilverStripe\Assets\File;
 use SilverStripe\ORM\DataObject;
 
 /**
@@ -24,7 +24,7 @@ class ThreeQFile extends DataObject
         'Title'     => 'Text',
         'Name'      => 'Text',
         'Thumbnail' => 'Varchar',
-        'Size'      => 'Int',
+        'Size'      => 'Float',
         'Length'    => 'Float'
         // TODO check further useful fields
     ];
@@ -33,12 +33,17 @@ class ThreeQFile extends DataObject
 
     public function flat(): array
     {
+        // TODO maybe add (human readable) length/duration
         return [
             'id'        => $this->ID,
             'threeQId'  => $this->ThreeQId,
             'title'     => $this->Title,
             'name'      => $this->Name,
-            'thumbnail' => $this->Thumbnail
+            'thumbnail' => $this->Thumbnail,
+            'size'      => [
+                'raw'       => $this->Size,
+                'formatted' => File::format_size($this->Size)
+            ]
         ];
     }
 
