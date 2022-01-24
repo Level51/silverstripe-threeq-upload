@@ -1,0 +1,44 @@
+{
+  "name": "level51/silverstripe-threeq-upload",
+  "version": "0.0.0",
+  "time": "2022-01-24",
+  "description": "SilverStripe module for file handling with 3Q SDN",
+  "keywords": [
+    "silverstripe",
+    "3Q",
+    "3Q SDN",
+    "Three Q"
+  ],
+  "type": "silverstripe-vendormodule",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Level51",
+      "email": "hallo@lvl51.de"
+    }
+  ],
+  "require": {
+    "php": ">=7.3",
+    "silverstripe/framework": "^4.7",
+    "silverstripe/vendor-plugin": "^1.4",
+    "guzzlehttp/guzzle": "7.4.x-dev"
+  },
+  "extra": {
+    "installer-name": "silverstripe-threeq-upload",
+    "expose": [
+      "client"
+    ]
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Level51\\ThreeQ\\": "src/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "silverstripe/vendor-plugin": true
+    }
+  }
+}

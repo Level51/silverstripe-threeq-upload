@@ -1,0 +1,10 @@
+---
+Name: threeq-upload-routes
+Before:
+  - 'adminroutes'
+After:
+  - 'admin-graphql-routes'
+---
+SilverStripe\Control\Director:
+  rules:
+    'admin/threeq': 'Level51\ThreeQ\ThreeQUploadController'
