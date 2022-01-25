@@ -1,6 +1,20 @@
 /*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/less-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./client/src/js/components/FileSelect.vue?vue&type=style&index=0&lang=less& ***!
   \****************************************************************************************************************************************************************************************************************************************************************************************/
+.threeQUpload .threeQUpload-select {
+  position: relative;
+}
+.threeQUpload .threeQUpload-select .threeQUpload-select-loadingIndicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.25rem;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .threeQUpload .threeQUpload-select input[type=text] {
   display: block;
   width: 100%;

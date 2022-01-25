@@ -15,7 +15,7 @@ use SilverStripe\View\Requirements;
  */
 class ThreeQUploadField extends FormField
 {
-    private static $allowed_actions = ['search', 'getUploadUrl', 'uploaded'];
+    private static $allowed_actions = ['search', 'getUploadUrl', 'uploaded', 'selectFile'];
 
     /**
      * @var int Max file size in MB, overrides the config value if set
@@ -50,11 +50,7 @@ class ThreeQUploadField extends FormField
         $value = $this->value;
 
         if ($value) {
-            if (!($file = ThreeQFile::byThreeQId($value))) {
-                $file = ThreeQFile::createForThreeQId($value);
-            }
-
-            return $file->ID;
+            return ThreeQFile::requireForThreeQId($value)->ID;
         }
 
         return 0;
@@ -83,6 +79,7 @@ class ThreeQUploadField extends FormField
                 'config'          => [
                     'minSearchChars'          => $this->minSearchChars,
                     'searchEndpoint'          => $this->Link('search'),
+                    'selectFileEndpoint'      => $this->Link('selectFile'),
                     'uploadUrlEndpoint'       => $this->Link('getUploadUrl'),
                     'successCallbackEndpoint' => $this->Link('uploaded')
                 ]
@@ -226,6 +223,18 @@ class ThreeQUploadField extends FormField
         return $this->getJsonResponseObject(json_encode($payload));
     }
 
+    public function selectFile(HTTPRequest $request)
+    {
+        $data = json_decode($request->getBody(), true);
+        $response = $this->getJsonResponseObject();
+
+        if (!isset($data['fileId'])) {
+            return $response->setStatusCode(400)->setBody('missing_file_id');
+        }
+
+        return $response->setBody(json_encode(ThreeQFile::requireForThreeQId($data['fileId'])->flat()));
+    }
+
     public function getUploadUrl(HTTPRequest $request)
     {
         $data = json_decode($request->getBody(), true);
@@ -258,6 +267,6 @@ class ThreeQUploadField extends FormField
             return $this->getJsonResponseObject('missing_file_id')->setStatusCode(400);
         }
 
-        return $this->getJsonResponseObject(json_encode(ThreeQFile::createForThreeQId($data['fileId'])->flat()));
+        return $this->getJsonResponseObject(json_encode(ThreeQFile::requireForThreeQId($data['fileId'])->flat()));
     }
 }

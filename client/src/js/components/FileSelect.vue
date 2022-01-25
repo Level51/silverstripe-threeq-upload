@@ -22,6 +22,14 @@
         spellcheck="false"
         :disabled="isUploadRunning">
     </vue-simple-suggest>
+
+    <div
+      v-if="isLoading"
+      class="threeQUpload-select-loadingIndicator">
+      <fa-icon
+        icon="spinner"
+        spin />
+    </div>
   </div>
 </template>
 
@@ -35,6 +43,7 @@ export default {
     return {
       term: '',
       selection: null,
+      isLoading: false,
     };
   },
   components: { VueSimpleSuggest },
@@ -49,12 +58,21 @@ export default {
   },
   methods: {
     ...mapActions(['setFile', 'showPreview']),
-    selected(suggestion) {
-      this.setFile(suggestion);
+    async selected(suggestion) {
+      this.isLoading = true;
+      const response = await axios.post(
+        this.payload.config.selectFileEndpoint,
+        {
+          fileId: suggestion.id,
+        },
+      );
+
+      this.setFile(response.data);
+      this.isLoading = false;
       this.showPreview();
-      // TODO trigger backend call to create ThreeQFile record
     },
     suggest() {
+      this.isLoading = true;
       return new Promise((resolve) => {
         if (this.cleanTerm.length < this.payload.config.minSearchChars) resolve([]);
         else {
@@ -62,6 +80,7 @@ export default {
             .get(this.endpoint)
             .then((response) => {
               resolve(response.data);
+              this.isLoading = false;
             });
         }
       });
@@ -73,6 +92,20 @@ export default {
 <style lang="less">
 @import "~styles/base";
 .threeQUpload .threeQUpload-select {
+  position: relative;
+
+  .threeQUpload-select-loadingIndicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1.25rem;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   input[type=text] {
     display: block;
     width: 100%;

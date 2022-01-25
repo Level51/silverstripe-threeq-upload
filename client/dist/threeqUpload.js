@@ -12293,7 +12293,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_0__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__.faFileVideo);
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_0__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__.faFileVideo, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__.faSpinner);
 vue__WEBPACK_IMPORTED_MODULE_3___default().component('FaIcon', _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon);
 
 /***/ }),
@@ -12778,12 +12778,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -12818,7 +12830,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       term: '',
-      selection: null
+      selection: null,
+      isLoading: false
     };
   },
   components: {
@@ -12834,16 +12847,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['setFile', 'showPreview'])), {}, {
     selected: function selected(suggestion) {
-      this.setFile(suggestion);
-      this.showPreview(); // TODO trigger backend call to create ThreeQFile record
-    },
-    suggest: function suggest() {
       var _this = this;
 
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var response;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.isLoading = true;
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post(_this.payload.config.selectFileEndpoint, {
+                  fileId: suggestion.id
+                });
+
+              case 3:
+                response = _context.sent;
+
+                _this.setFile(response.data);
+
+                _this.isLoading = false;
+
+                _this.showPreview();
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    suggest: function suggest() {
+      var _this2 = this;
+
+      this.isLoading = true;
       return new Promise(function (resolve) {
-        if (_this.cleanTerm.length < _this.payload.config.minSearchChars) resolve([]);else {
-          axios__WEBPACK_IMPORTED_MODULE_1___default().get(_this.endpoint).then(function (response) {
+        if (_this2.cleanTerm.length < _this2.payload.config.minSearchChars) resolve([]);else {
+          axios__WEBPACK_IMPORTED_MODULE_1___default().get(_this2.endpoint).then(function (response) {
             resolve(response.data);
+            _this2.isLoading = false;
           });
         }
       });
@@ -34633,6 +34676,15 @@ var render = function () {
           }),
         ]
       ),
+      _vm._v(" "),
+      _vm.isLoading
+        ? _c(
+            "div",
+            { staticClass: "threeQUpload-select-loadingIndicator" },
+            [_c("fa-icon", { attrs: { icon: "spinner", spin: "" } })],
+            1
+          )
+        : _vm._e(),
     ],
     1
   )

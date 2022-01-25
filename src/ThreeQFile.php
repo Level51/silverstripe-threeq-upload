@@ -81,4 +81,13 @@ class ThreeQFile extends DataObject
     {
         return self::get()->find('ThreeQId', $id);
     }
+
+    public static function requireForThreeQId($id): ThreeQFile
+    {
+        if ($file = self::byThreeQId($id)) {
+            return $file;
+        }
+
+        return self::createForThreeQId($id);
+    }
 }
