@@ -13,5 +13,9 @@
   },
   "generic": {
     "cancel": "Abbrechen"
+  },
+  "upload": {
+    "title": "Neue Datei hochladen",
+    "subTitle": "per Drag & Drop oder Klick"
   }
 }

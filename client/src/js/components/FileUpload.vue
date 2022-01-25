@@ -4,9 +4,21 @@
       :options="options"
       :id="`dropzone-${payload.id}`"
       ref="dropzone"
+      class="vue-dropzone"
+      :include-styling="false"
+      :use-custom-slot="true"
       @vdropzone-file-added="fileAdded"
       @vdropzone-success="successEvent"
-      @vdropzone-error="errorEvent" />
+      @vdropzone-error="errorEvent">
+      <div class="threeQUpload-uploader-content">
+        <div class="threeQUpload-uploader-content-title">
+          {{ $t('upload.title') }}
+        </div>
+        <div class="threeQUpload-uploader-content-subTitle">
+          {{ $t('upload.subTitle') }}
+        </div>
+      </div>
+    </vue2-dropzone>
   </div>
 </template>
 
@@ -37,12 +49,12 @@ export default {
         },
         // Hook into the sending method to be able to send the raw data instead of multipart/form-data
         // Thanks to https://github.com/dropzone/dropzone/issues/590#issuecomment-51498225
-        sending: function(file, xhr) {
-          var _send = xhr.send;
-          xhr.send = function() {
+        sending(file, xhr) {
+          const _send = xhr.send;
+          xhr.send = function () {
             _send.call(xhr, file);
           };
-        }
+        },
       };
     },
   },
@@ -112,6 +124,8 @@ export default {
 @import "~styles/base";
 
 .threeQUpload .threeQUpload-uploader {
+  margin-top: @space-2;
+
   .vue-dropzone {
     border: 2px dashed @color-border;
     border-radius: @border-radius;
@@ -128,6 +142,20 @@ export default {
 
     &.dz-drag-hover {
       box-shadow: 0 0 10px inset @color-border;
+    }
+
+    .threeQUpload-uploader-content {
+      text-align: center;
+
+      .threeQUpload-uploader-content-title {
+        margin: 0;
+        font-size: 1.15rem;
+        font-weight: bold;
+      }
+
+      .threeQUpload-uploader-content-subTitle {
+        font-size: 0.875rem;
+      }
     }
 
     &.dz-started {

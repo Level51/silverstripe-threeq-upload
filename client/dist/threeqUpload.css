@@ -59,6 +59,9 @@
 /*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/less-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./client/src/js/components/FileUpload.vue?vue&type=style&index=0&lang=less& ***!
   \****************************************************************************************************************************************************************************************************************************************************************************************/
+.threeQUpload .threeQUpload-uploader {
+  margin-top: 10px;
+}
 .threeQUpload .threeQUpload-uploader .vue-dropzone {
   border: 2px dashed #c1cad9;
   border-radius: 5px;
@@ -74,6 +77,17 @@
 }
 .threeQUpload .threeQUpload-uploader .vue-dropzone.dz-drag-hover {
   box-shadow: 0 0 10px inset #c1cad9;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .threeQUpload-uploader-content {
+  text-align: center;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .threeQUpload-uploader-content .threeQUpload-uploader-content-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .threeQUpload-uploader-content .threeQUpload-uploader-content-subTitle {
+  font-size: 0.875rem;
 }
 .threeQUpload .threeQUpload-uploader .vue-dropzone.dz-started .dz-message {
   display: none;

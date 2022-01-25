@@ -13,5 +13,9 @@
   },
   "generic": {
     "cancel": "Cancel"
+  },
+  "upload": {
+    "title": "Upload new file",
+    "subTitle": "via Drag & Drop or click"
   }
 }

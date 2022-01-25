@@ -12788,6 +12788,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -34532,15 +34544,43 @@ var render = function () {
     "div",
     { staticClass: "threeQUpload-uploader" },
     [
-      _c("vue2-dropzone", {
-        ref: "dropzone",
-        attrs: { options: _vm.options, id: "dropzone-" + _vm.payload.id },
-        on: {
-          "vdropzone-file-added": _vm.fileAdded,
-          "vdropzone-success": _vm.successEvent,
-          "vdropzone-error": _vm.errorEvent,
+      _c(
+        "vue2-dropzone",
+        {
+          ref: "dropzone",
+          staticClass: "vue-dropzone",
+          attrs: {
+            options: _vm.options,
+            id: "dropzone-" + _vm.payload.id,
+            "include-styling": false,
+            "use-custom-slot": true,
+          },
+          on: {
+            "vdropzone-file-added": _vm.fileAdded,
+            "vdropzone-success": _vm.successEvent,
+            "vdropzone-error": _vm.errorEvent,
+          },
         },
-      }),
+        [
+          _c("div", { staticClass: "threeQUpload-uploader-content" }, [
+            _c("div", { staticClass: "threeQUpload-uploader-content-title" }, [
+              _vm._v(
+                "\n        " + _vm._s(_vm.$t("upload.title")) + "\n      "
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "threeQUpload-uploader-content-subTitle" },
+              [
+                _vm._v(
+                  "\n        " + _vm._s(_vm.$t("upload.subTitle")) + "\n      "
+                ),
+              ]
+            ),
+          ]),
+        ]
+      ),
     ],
     1
   )
@@ -48772,7 +48812,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Ändern","deleteCta":"Löschen"},"search":{"placeholder":"Datei suchen"},"generic":{"cancel":"Abbrechen"}}');
+module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Ändern","deleteCta":"Löschen"},"search":{"placeholder":"Datei suchen"},"generic":{"cancel":"Abbrechen"},"upload":{"title":"Neue Datei hochladen","subTitle":"per Drag & Drop oder Klick"}}');
 
 /***/ }),
 
@@ -48783,7 +48823,7 @@ module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateina
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"preview":{"meta":{"title":"Title","name":"Name","size":"Size"},"changeCta":"Change","deleteCta":"Delete"},"search":{"placeholder":"Search file"},"generic":{"cancel":"Cancel"}}');
+module.exports = JSON.parse('{"preview":{"meta":{"title":"Title","name":"Name","size":"Size"},"changeCta":"Change","deleteCta":"Delete"},"search":{"placeholder":"Search file"},"generic":{"cancel":"Cancel"},"upload":{"title":"Upload new file","subTitle":"via Drag & Drop or click"}}');
 
 /***/ })
 
