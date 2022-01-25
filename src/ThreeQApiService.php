@@ -3,6 +3,7 @@
 namespace Level51\ThreeQ;
 
 use GuzzleHttp\Client;
+use SilverStripe\Core\Environment;
 use SilverStripe\Core\Injector\Injectable;
 
 /**
@@ -21,11 +22,11 @@ class ThreeQApiService
 
     public function __construct()
     {
-        if (!($apiKey = Util::config()->get('api_key'))) {
+        if (!($apiKey = Environment::getEnv('THREEQ_API_KEY'))) {
             user_error('Missing 3Q Api Key');
         }
 
-        if (!Util::config()->get('project_id')) {
+        if (!Environment::getEnv('THREEQ_PROJECT_ID')) {
             user_error('Missing 3Q project id');
         }
 
@@ -41,7 +42,7 @@ class ThreeQApiService
 
     public function getProjectId(): string
     {
-        return Util::config()->get('project_id');
+        return Environment::getEnv('THREEQ_PROJECT_ID');
     }
 
     /**
