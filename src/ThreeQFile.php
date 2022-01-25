@@ -34,6 +34,11 @@ class ThreeQFile extends DataObject
 
     public function flat(): array
     {
+        // If the file was not finished yet, trigger an api sync as it may be finished now
+        if (!$this->IsFinished) {
+            $this->syncWithApi();
+        }
+
         // TODO maybe add (human readable) length/duration
         return [
             'id'         => $this->ThreeQId,

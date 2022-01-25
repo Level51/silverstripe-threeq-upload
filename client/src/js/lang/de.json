@@ -18,5 +18,10 @@
   "upload": {
     "title": "Neue Datei hochladen",
     "subTitle": "per Drag & Drop oder Klick"
+  },
+  "inThreeQProgress": {
+    "headline": "In Bearbeitung",
+    "description": "Die Datei wird noch bei 3Q bearbeitet",
+    "updateCta": "Status aktualisieren"
   }
 }

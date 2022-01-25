@@ -136,6 +136,8 @@
   \*****************************************************************************************************************************************************************************************************************************************************************************************/
 .threeQUpload .threeQUpload-preview {
   border: 1px solid #ced5e1;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-wrapper {
   display: flex;
 }
 .threeQUpload .threeQUpload-preview .threeQUpload-preview-image {
@@ -144,6 +146,13 @@
 .threeQUpload .threeQUpload-preview .threeQUpload-preview-image img {
   display: block;
   width: 100%;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-inProgress {
+  padding: 10px;
+  border-bottom: 1px solid #ced5e1;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-inProgress .threeQUpload-preview-inProgress-headline {
+  font-weight: bold;
 }
 .threeQUpload .threeQUpload-preview .threeQUpload-preview-meta {
   flex: 1 1 auto;

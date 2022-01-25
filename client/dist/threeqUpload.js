@@ -12707,7 +12707,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -12754,10 +12760,74 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['file'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['hidePreview', 'deleteFile']))
+  data: function data() {
+    return {
+      isSyncing: false
+    };
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['file', 'payload'])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['hidePreview', 'deleteFile', 'setFile'])), {}, {
+    syncWithApi: function syncWithApi() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var response;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.isSyncing = true;
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_0___default().put(_this.payload.config.syncWithApiEndpoint);
+
+              case 3:
+                response = _context.sent;
+
+                _this.setFile(response.data);
+
+                _this.isSyncing = false;
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  })
 });
 
 /***/ }),
@@ -34545,70 +34615,134 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "threeQUpload-preview" }, [
-    _c("div", { staticClass: "threeQUpload-preview-meta" }, [
-      _c("div", [
-        _c("strong", [_vm._v(_vm._s(_vm.$t("preview.meta.title")))]),
-        _vm._v("\n      " + _vm._s(_vm.file.title) + "\n    "),
-      ]),
-      _vm._v(" "),
-      _c("div", [
-        _c("strong", [_vm._v(_vm._s(_vm.$t("preview.meta.name")))]),
-        _vm._v("\n      " + _vm._s(_vm.file.name) + "\n    "),
-      ]),
-      _vm._v(" "),
-      _vm.file.size && _vm.file.size.formatted
-        ? _c("div", [
-            _c("strong", [_vm._v(_vm._s(_vm.$t("preview.meta.size")))]),
-            _vm._v("\n      " + _vm._s(_vm.file.size.formatted) + "\n    "),
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", [
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-primary",
-            attrs: { href: "" },
-            on: {
-              click: function ($event) {
-                $event.preventDefault()
-                return _vm.hidePreview.apply(null, arguments)
-              },
-            },
-          },
-          [
+    !_vm.file.isFinished
+      ? _c("div", { staticClass: "threeQUpload-preview-inProgress" }, [
+          _c(
+            "div",
+            { staticClass: "threeQUpload-preview-inProgress-headline" },
+            [
+              _vm._v(
+                "\n      " +
+                  _vm._s(_vm.$t("inThreeQProgress.headline")) +
+                  "\n    "
+              ),
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", [
             _vm._v(
-              "\n        " + _vm._s(_vm.$t("preview.changeCta")) + "\n      "
+              "\n      " +
+                _vm._s(_vm.$t("inThreeQProgress.description")) +
+                "\n    "
             ),
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-danger",
-            attrs: { href: "" },
-            on: {
-              click: function ($event) {
-                $event.preventDefault()
-                return _vm.deleteFile.apply(null, arguments)
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mt-2" }, [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { href: "" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.syncWithApi.apply(null, arguments)
+                  },
+                },
               },
-            },
-          },
-          [
-            _vm._v(
-              "\n        " + _vm._s(_vm.$t("preview.deleteCta")) + "\n      "
+              [
+                _vm.isSyncing
+                  ? _c("fa-icon", { attrs: { icon: "spinner", spin: "" } })
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.isSyncing
+                  ? [
+                      _vm._v(
+                        "\n          " +
+                          _vm._s(_vm.$t("inThreeQProgress.updateCta")) +
+                          "\n        "
+                      ),
+                    ]
+                  : _vm._e(),
+              ],
+              2
             ),
-          ]
-        ),
-      ]),
-    ]),
-    _vm._v(" "),
-    _vm.file.thumbnail
-      ? _c("div", { staticClass: "threeQUpload-preview-image" }, [
-          _c("img", { attrs: { src: _vm.file.thumbnail } }),
+          ]),
         ])
       : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "threeQUpload-preview-wrapper" }, [
+      _c("div", { staticClass: "threeQUpload-preview-meta" }, [
+        _c("div", [
+          _c("strong", [_vm._v(_vm._s(_vm.$t("preview.meta.title")))]),
+          _vm._v("\n        " + _vm._s(_vm.file.title) + "\n      "),
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("strong", [_vm._v(_vm._s(_vm.$t("preview.meta.name")))]),
+          _vm._v("\n        " + _vm._s(_vm.file.name) + "\n      "),
+        ]),
+        _vm._v(" "),
+        _vm.file.size && _vm.file.size.raw > 0 && _vm.file.size.formatted
+          ? _c("div", [
+              _c("strong", [_vm._v(_vm._s(_vm.$t("preview.meta.size")))]),
+              _vm._v(
+                "\n        " + _vm._s(_vm.file.size.formatted) + "\n      "
+              ),
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-primary",
+              attrs: { href: "" },
+              on: {
+                click: function ($event) {
+                  $event.preventDefault()
+                  return _vm.hidePreview.apply(null, arguments)
+                },
+              },
+            },
+            [
+              _vm._v(
+                "\n          " +
+                  _vm._s(_vm.$t("preview.changeCta")) +
+                  "\n        "
+              ),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-danger",
+              attrs: { href: "" },
+              on: {
+                click: function ($event) {
+                  $event.preventDefault()
+                  return _vm.deleteFile.apply(null, arguments)
+                },
+              },
+            },
+            [
+              _vm._v(
+                "\n          " +
+                  _vm._s(_vm.$t("preview.deleteCta")) +
+                  "\n        "
+              ),
+            ]
+          ),
+        ]),
+      ]),
+      _vm._v(" "),
+      _vm.file.thumbnail
+        ? _c("div", { staticClass: "threeQUpload-preview-image" }, [
+            _c("img", { attrs: { src: _vm.file.thumbnail } }),
+          ])
+        : _vm._e(),
+    ]),
   ])
 }
 var staticRenderFns = []
@@ -48916,7 +49050,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Ändern","deleteCta":"Löschen"},"search":{"placeholder":"Datei auswählen"},"generic":{"cancel":"Abbrechen","orSelectHint":"oder"},"upload":{"title":"Neue Datei hochladen","subTitle":"per Drag & Drop oder Klick"}}');
+module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Ändern","deleteCta":"Löschen"},"search":{"placeholder":"Datei auswählen"},"generic":{"cancel":"Abbrechen","orSelectHint":"oder"},"upload":{"title":"Neue Datei hochladen","subTitle":"per Drag & Drop oder Klick"},"inThreeQProgress":{"headline":"In Bearbeitung","description":"Die Datei wird noch bei 3Q bearbeitet","updateCta":"Status aktualisieren"}}');
 
 /***/ }),
 
@@ -48927,7 +49061,7 @@ module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateina
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"preview":{"meta":{"title":"Title","name":"Name","size":"Size"},"changeCta":"Change","deleteCta":"Delete"},"search":{"placeholder":"Select file"},"generic":{"cancel":"Cancel","orSelectHint":"or"},"upload":{"title":"Upload new file","subTitle":"via Drag & Drop or click"}}');
+module.exports = JSON.parse('{"preview":{"meta":{"title":"Title","name":"Name","size":"Size"},"changeCta":"Change","deleteCta":"Delete"},"search":{"placeholder":"Select file"},"generic":{"cancel":"Cancel","orSelectHint":"or"},"upload":{"title":"Upload new file","subTitle":"via Drag & Drop or click"},"inThreeQProgress":{"headline":"In progress","description":"The file is still being processed by 3Q","updateCta":"Update status"}}');
 
 /***/ })
 

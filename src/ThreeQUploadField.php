@@ -15,7 +15,7 @@ use SilverStripe\View\Requirements;
  */
 class ThreeQUploadField extends FormField
 {
-    private static $allowed_actions = ['search', 'getUploadUrl', 'uploaded', 'selectFile'];
+    private static $allowed_actions = ['search', 'getUploadUrl', 'uploaded', 'selectFile', 'syncWithApi'];
 
     /**
      * @var int Max file size in MB, overrides the config value if set
@@ -81,7 +81,8 @@ class ThreeQUploadField extends FormField
                     'searchEndpoint'          => $this->Link('search'),
                     'selectFileEndpoint'      => $this->Link('selectFile'),
                     'uploadUrlEndpoint'       => $this->Link('getUploadUrl'),
-                    'successCallbackEndpoint' => $this->Link('uploaded')
+                    'successCallbackEndpoint' => $this->Link('uploaded'),
+                    'syncWithApiEndpoint'     => $this->Link('syncWithApi')
                 ]
             ]
         );
@@ -268,5 +269,16 @@ class ThreeQUploadField extends FormField
         }
 
         return $this->getJsonResponseObject(json_encode(ThreeQFile::requireForThreeQId($data['fileId'])->flat()));
+    }
+
+    public function syncWithApi()
+    {
+        if ($this->getFile()) {
+            $this->getFile()->syncWithApi();
+
+            return $this->getJsonResponseObject(json_encode($this->getFile()->flat()));
+        }
+
+        return $this->getJsonResponseObject()->setStatusCode(204);
     }
 }
