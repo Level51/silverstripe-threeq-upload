@@ -9,6 +9,11 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Config\Config_ForClass;
 use SilverStripe\Core\Injector\Injector;
 
+/**
+ * Util class for generic helper methods.
+ *
+ * @package Level51\ThreeQ
+ */
 class Util
 {
     /**
@@ -21,6 +26,7 @@ class Util
 
     /**
      * @return CacheInterface
+     *
      * @throws NotFoundExceptionInterface
      */
     public static function getCache(): CacheInterface
@@ -34,6 +40,7 @@ class Util
      * Input of e.g. 'video/mp4' or '.mp4' returns 'mp4'.
      *
      * @param $fileType
+     *
      * @return string
      */
     public static function sanitizeFileType($fileType): string

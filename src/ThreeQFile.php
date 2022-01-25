@@ -2,11 +2,13 @@
 
 namespace Level51\ThreeQ;
 
+use GuzzleHttp\Exception\GuzzleException;
 use SilverStripe\Assets\File;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\ValidationException;
 
 /**
- * Class ThreeQFile.
+ * DataObject class for 3Q file records.
  *
  * @property int     $ThreeQId
  * @property string  $Title
@@ -15,6 +17,8 @@ use SilverStripe\ORM\DataObject;
  * @property boolean $IsFinished
  * @property int     $Size
  * @property float   $Length
+ *
+ * @package Level51\ThreeQ
  */
 class ThreeQFile extends DataObject
 {
@@ -32,6 +36,14 @@ class ThreeQFile extends DataObject
 
     // TODO on before delete handling?!
 
+    /**
+     * Get a flat version of this record.
+     *
+     * @return array
+     *
+     * @throws GuzzleException
+     * @throws ValidationException
+     */
     public function flat(): array
     {
         // If the file was not finished yet, trigger an api sync as it may be finished now
@@ -54,7 +66,15 @@ class ThreeQFile extends DataObject
         ];
     }
 
-    public function syncWithApi()
+    /**
+     * Sync meta data by calling the 3Q api.
+     *
+     * @return void
+     *
+     * @throws GuzzleException
+     * @throws ValidationException
+     */
+    public function syncWithApi(): void
     {
         if (!$this->ThreeQId) {
             return;
@@ -72,7 +92,17 @@ class ThreeQFile extends DataObject
         }
     }
 
-    public static function createForThreeQId($id): ThreeQFile
+    /**
+     * Create a new record for the given 3Q file id.
+     *
+     * @param string|int $id
+     *
+     * @return ThreeQFile
+     *
+     * @throws GuzzleException
+     * @throws ValidationException
+     */
+    private static function createForThreeQId($id): ThreeQFile
     {
         $file = new self();
         $file->ThreeQId = $id;
@@ -82,11 +112,27 @@ class ThreeQFile extends DataObject
         return $file;
     }
 
+    /**
+     * Try to find a record for the given 3Q file id.
+     *
+     * @param string|int $id
+     * @return ThreeQFile|DataObject|null
+     */
     public static function byThreeQId($id): ?ThreeQFile
     {
         return self::get()->find('ThreeQId', $id);
     }
 
+    /**
+     * Get a record for the given id.
+     *
+     * This will either return an existing record or create a new one if necessary.
+     *
+     * @param string|int $id
+     * @return ThreeQFile
+     * @throws GuzzleException
+     * @throws ValidationException
+     */
     public static function requireForThreeQId($id): ThreeQFile
     {
         if ($file = self::byThreeQId($id)) {

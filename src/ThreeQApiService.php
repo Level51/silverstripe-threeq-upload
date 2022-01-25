@@ -3,13 +3,16 @@
 namespace Level51\ThreeQ;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 use SilverStripe\Core\Environment;
 use SilverStripe\Core\Injector\Injectable;
 
 /**
- * Simple service class for parts of the 3Q API.
+ * Service class for the api communication with 3Q.
  *
- * @package T1\Subplatform
+ * @package Level51\ThreeQ
  *
  * @see https://sdn.3qsdn.com/api/doc
  */
@@ -54,7 +57,9 @@ class ThreeQApiService
      *
      * @return array
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      *
      * @see https://sdn.3qsdn.com/api/doc#get--api-v2-projects-{ProjectId}-files
      */
@@ -89,14 +94,22 @@ class ThreeQApiService
         }
     }
 
-    public function getFile($id)
+    /**
+     * Get detailed information for a specific file from 3Q.
+     *
+     * @param string|int $id
+     *
+     * @return array|null
+     *
+     * @throws GuzzleException
+     */
+    public function getFile($id): ?array
     {
         try {
             $response = $this->httpClient
                 ->get('projects/' . $this->getProjectId() . '/files/' . $id);
 
-            $result = $response->getBody()->getContents();
-            return json_decode($result, true);
+            return json_decode($response->getBody()->getContents(), true);
         } catch (\Exception $e) {
             // TODO error handling
             return null;
@@ -104,14 +117,20 @@ class ThreeQApiService
     }
 
     /**
-     * @param $filename
-     * @param $filetype
+     * Request an upload url from 3Q for the given file.
+     *
+     * The actual file upload has to be done against the url returned by this function.
+     *
+     * @param string $filename
+     * @param string $filetype
+     *
      * @return string|null
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @throws GuzzleException
      *
      * @see https://sdn.3qsdn.com/api/doc#post--api-v2-projects-{ProjectId}-files
      */
-    public function getUploadUrl($filename, $filetype): ?string
+    public function getUploadUrl(string $filename, string $filetype): ?string
     {
         $response = $this->httpClient
             ->post(
@@ -130,9 +149,11 @@ class ThreeQApiService
     /**
      * Get a list of all playout ids linked to the given file.
      *
-     * @param $fileId
+     * @param string|int $fileId
+     *
      * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @throws GuzzleException
      *
      * @see https://sdn.3qsdn.com/api/doc#get--api-v2-projects-{ProjectId}-files-{FileId}-playouts
      */
@@ -149,7 +170,7 @@ class ThreeQApiService
 
             return $result['FilePlayouts'] ?? [];
         } catch (\Exception $e) {
-            // TODO error hanlding
+            // TODO error handling
             return [];
         }
     }
