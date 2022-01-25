@@ -43,11 +43,6 @@ class ThreeQUploadField extends FormField
      */
     private $allowedFileTypes = ['mp4'];
 
-    /**
-     * @var int Max duration in seconds until the XHR request is canceled, overrides the config value if set.
-     */
-    protected $timeout;
-
     public function Field($properties = array())
     {
         Requirements::javascript('level51/silverstripe-threeq-upload: client/dist/threeqUpload.js');
@@ -87,8 +82,7 @@ class ThreeQUploadField extends FormField
                 'lang'            => substr(Security::getCurrentUser()->Locale, 0, 2),
                 'dropzoneOptions' => [
                     'maxFilesize'   => $this->getMaxFileSize(),
-                    'acceptedFiles' => $this->getAllowedFileTypesForFrontend(),
-                    'timeout'       => $this->getTimeout(),
+                    'acceptedFiles' => $this->getAllowedFileTypesForFrontend()
                 ],
                 'config'          => [
                     'minSearchChars'          => $this->minSearchChars,
@@ -105,21 +99,11 @@ class ThreeQUploadField extends FormField
     /**
      * The max allowed file size.
      *
-     * @return int
+     * @return int|null
      */
-    public function getMaxFileSize(): int
+    public function getMaxFileSize(): ?int
     {
         return $this->maxFileSize ?: self::config()->get('maxFileSize');
-    }
-
-    /**
-     * Get the timeout for the dropzone component.
-     *
-     * @return int
-     */
-    public function getTimeout(): int
-    {
-        return ($this->timeout ?: self::config()->get('timeout')) * 1000;
     }
 
     /**
@@ -180,20 +164,6 @@ class ThreeQUploadField extends FormField
     public function setMaxFileSize(int $maxFileSize): ThreeQUploadField
     {
         $this->maxFileSize = $maxFileSize;
-
-        return $this;
-    }
-
-    /**
-     * Override the config timeout value for this field.
-     *
-     * @param int $timeout Timeout in seconds
-     *
-     * @return $this
-     */
-    public function setTimeout(int $timeout): ThreeQUploadField
-    {
-        $this->timeout = $timeout;
 
         return $this;
     }
