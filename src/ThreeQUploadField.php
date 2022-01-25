@@ -39,6 +39,11 @@ class ThreeQUploadField extends FormField
      */
     private $allowedFileTypes = ['mp4'];
 
+    /**
+     * @var bool Whether or not new file uploads are enabled
+     */
+    private $uploadsEnabled = true;
+
     public function Field($properties = array())
     {
         Requirements::javascript('level51/silverstripe-threeq-upload: client/dist/threeqUpload.js');
@@ -81,6 +86,7 @@ class ThreeQUploadField extends FormField
                     'acceptedFiles' => $this->getAllowedFileTypesForFrontend()
                 ],
                 'config'          => [
+                    'uploadsEnabled'          => $this->getUploadsEnabledState(),
                     'minSearchChars'          => $this->minSearchChars,
                     'searchEndpoint'          => $this->Link('search'),
                     'selectFileEndpoint'      => $this->Link('selectFile'),
@@ -91,6 +97,8 @@ class ThreeQUploadField extends FormField
             ]
         );
     }
+
+    // <editor-fold defaultstate="collapsed" desc="getter">
 
     /**
      * The max allowed file size.
@@ -118,6 +126,14 @@ class ThreeQUploadField extends FormField
     }
 
     /**
+     * @return bool
+     */
+    public function getUploadsEnabledState(): bool
+    {
+        return $this->uploadsEnabled;
+    }
+
+    /**
      * Get the file record according to the value if set.
      *
      * @return null|DataObject|ThreeQFile
@@ -135,6 +151,10 @@ class ThreeQUploadField extends FormField
 
         return null;
     }
+
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="setter">
 
     /**
      * Define the min length of search terms needed to execute the search.
@@ -165,6 +185,28 @@ class ThreeQUploadField extends FormField
     }
 
     /**
+     * @return ThreeQUploadField
+     */
+    public function disableUploads(): ThreeQUploadField
+    {
+        $this->uploadsEnabled = false;
+
+        return $this;
+    }
+
+    /**
+     * @return ThreeQUploadField
+     */
+    public function enableUploads(): ThreeQUploadField
+    {
+        $this->uploadsEnabled = true;
+
+        return $this;
+    }
+
+    // </editor-fold>
+
+    /**
      * Helper function to get a new http response with proper header for json results.
      *
      * @param $body
@@ -183,6 +225,8 @@ class ThreeQUploadField extends FormField
 
         return $response;
     }
+
+    // <editor-fold defaultstate="collapsed" desc="endpoints">
 
     /**
      * Endpoint for search requests.
@@ -320,4 +364,6 @@ class ThreeQUploadField extends FormField
 
         return $this->getJsonResponseObject()->setStatusCode(204);
     }
+
+    // </editor-fold>
 }

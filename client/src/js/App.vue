@@ -12,11 +12,13 @@
     </template>
 
     <template v-if="!previewVisible">
-      <FileUpload />
+      <template v-if="payload.config.uploadsEnabled">
+        <FileUpload />
 
-      <div class="threeQUpload-orSelectHint">
-        {{ $t('generic.orSelectHint') }}
-      </div>
+        <div class="threeQUpload-orSelectHint">
+          {{ $t('generic.orSelectHint') }}
+        </div>
+      </template>
 
       <FileSelect />
 

@@ -12637,6 +12637,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -34549,13 +34551,19 @@ var render = function () {
       _vm._v(" "),
       !_vm.previewVisible
         ? [
-            _c("FileUpload"),
-            _vm._v(" "),
-            _c("div", { staticClass: "threeQUpload-orSelectHint" }, [
-              _vm._v(
-                "\n      " + _vm._s(_vm.$t("generic.orSelectHint")) + "\n    "
-              ),
-            ]),
+            _vm.payload.config.uploadsEnabled
+              ? [
+                  _c("FileUpload"),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "threeQUpload-orSelectHint" }, [
+                    _vm._v(
+                      "\n        " +
+                        _vm._s(_vm.$t("generic.orSelectHint")) +
+                        "\n      "
+                    ),
+                  ]),
+                ]
+              : _vm._e(),
             _vm._v(" "),
             _c("FileSelect"),
             _vm._v(" "),
