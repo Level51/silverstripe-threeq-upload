@@ -12660,7 +12660,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.setLocale();
     this.init();
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapState)(['payload', 'message', 'previewVisible', 'file'])), (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(['value'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapState)(['payload', 'message', 'previewVisible', 'file', 'isUploadRunning'])), (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(['value'])),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapActions)(['initStore', 'showPreview'])), {}, {
     init: function init() {
       var _this = this;
@@ -34559,7 +34559,7 @@ var render = function () {
             _vm._v(" "),
             _c("FileSelect"),
             _vm._v(" "),
-            _vm.file
+            _vm.file && !_vm.isUploadRunning
               ? _c("div", { staticClass: "mt-4" }, [
                   _c(
                     "a",

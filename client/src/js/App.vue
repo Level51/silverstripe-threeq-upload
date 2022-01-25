@@ -20,7 +20,7 @@
 
       <FileSelect />
 
-      <div v-if="file" class="mt-4">
+      <div v-if="file && !isUploadRunning" class="mt-4">
         <a
           class="btn btn-primary"
           href=""
@@ -60,7 +60,7 @@ export default {
     this.init();
   },
   computed: {
-    ...mapState(['payload', 'message', 'previewVisible', 'file']),
+    ...mapState(['payload', 'message', 'previewVisible', 'file', 'isUploadRunning']),
     ...mapGetters(['value']),
   },
   methods: {
