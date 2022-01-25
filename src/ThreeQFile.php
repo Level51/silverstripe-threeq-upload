@@ -17,6 +17,7 @@ use SilverStripe\ORM\ValidationException;
  * @property boolean $IsFinished
  * @property int     $Size
  * @property float   $Length
+ * @property string  $PlayoutId
  *
  * @package Level51\ThreeQ
  */
@@ -31,7 +32,8 @@ class ThreeQFile extends DataObject
         'Thumbnail'  => 'Varchar',
         'Size'       => 'Float',
         'Length'     => 'Float',
-        'IsFinished' => 'Boolean'
+        'IsFinished' => 'Boolean',
+        'PlayoutId'  => 'Text'
     ];
 
     // TODO on before delete handling?!
@@ -47,8 +49,7 @@ class ThreeQFile extends DataObject
      */
     public function flat(bool $autoSync = true): array
     {
-        // If the file was not finished yet, trigger an api sync as it may be finished now
-        if (!$this->IsFinished && $autoSync) {
+        if ($autoSync && !$this->IsFinished) {
             $this->syncWithApi();
         }
 
@@ -60,6 +61,7 @@ class ThreeQFile extends DataObject
             'name'       => $this->Name,
             'thumbnail'  => $this->Thumbnail,
             'isFinished' => $this->IsFinished,
+            'playoutId'  => $this->fetchPlayoutId(),
             'size'       => [
                 'raw'       => $this->Size,
                 'formatted' => File::format_size($this->Size)
@@ -91,6 +93,29 @@ class ThreeQFile extends DataObject
             $this->IsFinished = $result['IsFinished'] ?? false;
             $this->write();
         }
+    }
+
+    /**
+     * Fetch the playout id for this file.
+     *
+     * Uses the one stored in the DB if already fetched and not forced via $forceApi = true.
+     *
+     * @param bool $forceApi
+     * @return string|null
+     * @throws GuzzleException
+     * @throws ValidationException
+     */
+    public function fetchPlayoutId(bool $forceApi = false): ?string
+    {
+        if (!$this->PlayoutId || $forceApi) {
+            $playoutIds = ThreeQApiService::singleton()->getPlayoutIds($this->ThreeQId);
+            if (!empty($playoutIds)) {
+                $this->PlayoutId = $playoutIds[0]['Id'];
+                $this->write();
+            }
+        }
+
+        return $this->PlayoutId;
     }
 
     /**
