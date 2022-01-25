@@ -59,7 +59,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setMessage', 'showPreview', 'setFile']),
+    ...mapActions(['setMessage', 'showPreview', 'setFile', 'setIsUploadRunningState']),
     successEvent(file) {
       const threeQFileInfo = JSON.parse(file.xhr.response);
 
@@ -81,6 +81,8 @@ export default {
         // TODO error handling
         console.warn('server error', err);
       });
+
+      this.setIsUploadRunningState(false);
     },
     async fetchUploadUrl() {
       const file = this.$refs.dropzone.getQueuedFiles()[0];
@@ -99,6 +101,7 @@ export default {
       this.uploadUrl = response.data;
     },
     async handleUpload() {
+      this.setIsUploadRunningState(true);
       this.processTimeout = setTimeout(async () => {
         await this.fetchUploadUrl();
         this.$refs.dropzone.processQueue();
@@ -112,6 +115,8 @@ export default {
       this.setMessage({ type: 'error', content: message });
 
       if (xhr) console.log(xhr);
+
+      this.setIsUploadRunningState(false);
 
       this.$refs.dropzone.removeAllFiles();
       clearTimeout(this.processTimeout);

@@ -11,6 +11,7 @@ const state = {
   file: null,
   message: null,
   previewVisible: false,
+  isUploadRunning: false,
 };
 
 const store = new Vuex.Store({

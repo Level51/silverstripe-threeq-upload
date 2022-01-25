@@ -1,5 +1,4 @@
 import * as types from './mutation-types';
-import {SET_PREVIEW_VISBILITY} from "./mutation-types";
 
 export default {
   [types.SET_PAYLOAD](state, payload) {
@@ -14,4 +13,7 @@ export default {
   [types.SET_PREVIEW_VISBILITY](state, isVisible) {
     state.previewVisible = isVisible;
   },
+  [types.SET_IS_UPLOAD_RUNNING_STATE](state, isUploadRunning) {
+    state.isUploadRunning = isUploadRunning;
+  }
 };

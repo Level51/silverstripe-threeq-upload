@@ -42,5 +42,8 @@ export default {
   deleteFile({ dispatch }) {
     dispatch('setFile', null);
     dispatch('hidePreview');
-  }
+  },
+  setIsUploadRunningState({ commit }, isUploadRunning) {
+    commit(types.SET_IS_UPLOAD_RUNNING_STATE, isUploadRunning);
+  },
 };

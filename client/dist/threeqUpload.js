@@ -12381,6 +12381,10 @@ __webpack_require__.r(__webpack_exports__);
     var dispatch = _ref6.dispatch;
     dispatch('setFile', null);
     dispatch('hidePreview');
+  },
+  setIsUploadRunningState: function setIsUploadRunningState(_ref7, isUploadRunning) {
+    var commit = _ref7.commit;
+    commit(_mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_IS_UPLOAD_RUNNING_STATE, isUploadRunning);
   }
 });
 
@@ -12434,7 +12438,8 @@ var state = {
   payload: null,
   file: null,
   message: null,
-  previewVisible: false
+  previewVisible: false,
+  isUploadRunning: false
 };
 var store = new vuex__WEBPACK_IMPORTED_MODULE_4__["default"].Store({
   state: state,
@@ -12458,12 +12463,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SET_PAYLOAD": () => (/* binding */ SET_PAYLOAD),
 /* harmony export */   "SET_FILE": () => (/* binding */ SET_FILE),
 /* harmony export */   "SET_MESSAGE": () => (/* binding */ SET_MESSAGE),
-/* harmony export */   "SET_PREVIEW_VISBILITY": () => (/* binding */ SET_PREVIEW_VISBILITY)
+/* harmony export */   "SET_PREVIEW_VISBILITY": () => (/* binding */ SET_PREVIEW_VISBILITY),
+/* harmony export */   "SET_IS_UPLOAD_RUNNING_STATE": () => (/* binding */ SET_IS_UPLOAD_RUNNING_STATE)
 /* harmony export */ });
 var SET_PAYLOAD = 'SET_PAYLOAD';
 var SET_FILE = 'SET_FILE';
 var SET_MESSAGE = 'SET_MESSAGE';
 var SET_PREVIEW_VISBILITY = 'SET_PREVIEW_VISBILITY';
+var SET_IS_UPLOAD_RUNNING_STATE = 'SET_IS_UPLOAD_RUNNING_STATE';
 
 /***/ }),
 
@@ -12484,7 +12491,6 @@ var _types$SET_PAYLOAD$ty;
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_types$SET_PAYLOAD$ty = {}, _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PAYLOAD, function (state, payload) {
   state.payload = payload;
 }), _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_FILE, function (state, file) {
@@ -12493,6 +12499,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state.message = message;
 }), _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PREVIEW_VISBILITY, function (state, isVisible) {
   state.previewVisible = isVisible;
+}), _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_IS_UPLOAD_RUNNING_STATE, function (state, isUploadRunning) {
+  state.isUploadRunning = isUploadRunning;
 }), _types$SET_PAYLOAD$ty);
 
 /***/ }),
@@ -12802,6 +12810,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -12815,7 +12824,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     VueSimpleSuggest: (vue_simple_suggest_dist_cjs__WEBPACK_IMPORTED_MODULE_0___default())
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['payload', 'file'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['payload', 'file', 'isUploadRunning'])), {}, {
     cleanTerm: function cleanTerm() {
       return this.term && typeof this.term === 'string' ? this.term.trim() : '';
     },
@@ -12933,7 +12942,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['setMessage', 'showPreview', 'setFile'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['setMessage', 'showPreview', 'setFile', 'setIsUploadRunningState'])), {}, {
     successEvent: function successEvent(file) {
       var _threeQFileInfo$FileP,
           _this2 = this;
@@ -12954,6 +12963,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         // TODO error handling
         console.warn('server error', err);
       });
+      this.setIsUploadRunningState(false);
     },
     fetchUploadUrl: function fetchUploadUrl() {
       var _this3 = this;
@@ -13002,6 +13012,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                _this4.setIsUploadRunningState(true);
+
                 _this4.processTimeout = setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
                   return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -13021,7 +13033,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   }, _callee2);
                 })), 100);
 
-              case 1:
+              case 2:
               case "end":
                 return _context3.stop();
             }
@@ -13039,6 +13051,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         content: message
       });
       if (xhr) console.log(xhr);
+      this.setIsUploadRunningState(false);
       this.$refs.dropzone.removeAllFiles();
       clearTimeout(this.processTimeout);
     }
@@ -34614,6 +34627,7 @@ var render = function () {
               autocorrect: "off",
               autocapitalize: "off",
               spellcheck: "false",
+              disabled: _vm.isUploadRunning,
             },
             domProps: { value: _vm.term },
           }),

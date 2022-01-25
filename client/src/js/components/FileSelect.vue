@@ -19,7 +19,8 @@
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
-        spellcheck="false">
+        spellcheck="false"
+        :disabled="isUploadRunning">
     </vue-simple-suggest>
   </div>
 </template>
@@ -38,7 +39,7 @@ export default {
   },
   components: { VueSimpleSuggest },
   computed: {
-    ...mapState(['payload', 'file']),
+    ...mapState(['payload', 'file', 'isUploadRunning']),
     cleanTerm() {
       return this.term && typeof this.term === 'string' ? this.term.trim() : '';
     },
