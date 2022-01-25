@@ -5,7 +5,8 @@
       "name": "Dateiname",
       "size": "Größe"
     },
-    "changeCta": "Ändern"
+    "changeCta": "Ändern",
+    "deleteCta": "Löschen"
   },
   "search": {
     "placeholder": "Datei suchen"

@@ -21,6 +21,13 @@
           @click.prevent="hidePreview" >
           {{ $t('preview.changeCta') }}
         </a>
+
+        <a
+          class="btn btn-danger"
+          href=""
+          @click.prevent="deleteFile" >
+          {{ $t('preview.deleteCta') }}
+        </a>
       </div>
     </div>
     <div
@@ -39,7 +46,7 @@ export default {
     ...mapState(['file']),
   },
   methods: {
-    ...mapActions(['hidePreview']),
+    ...mapActions(['hidePreview', 'deleteFile']),
   }
 };
 </script>

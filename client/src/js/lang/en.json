@@ -5,7 +5,8 @@
       "name": "Name",
       "size": "Size"
     },
-    "changeCta": "Change"
+    "changeCta": "Change",
+    "deleteCta": "Delete"
   },
   "search": {
     "placeholder": "Search file"

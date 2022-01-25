@@ -27,7 +27,7 @@
 <script>
 import VueSimpleSuggest from 'vue-simple-suggest/dist/cjs';
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -47,8 +47,11 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['setFile', 'showPreview']),
     selected(suggestion) {
-      this.$store.dispatch('setFile', suggestion);
+      this.setFile(suggestion);
+      this.showPreview();
+      // TODO trigger backend call to create ThreeQFile record
     },
     suggest() {
       return new Promise((resolve) => {

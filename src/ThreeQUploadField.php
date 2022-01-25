@@ -49,11 +49,15 @@ class ThreeQUploadField extends FormField
     {
         $value = $this->value;
 
-        if (!($file = ThreeQFile::byThreeQId($value))) {
-            $file = ThreeQFile::createForThreeQId($value);
+        if ($value) {
+            if (!($file = ThreeQFile::byThreeQId($value))) {
+                $file = ThreeQFile::createForThreeQId($value);
+            }
+
+            return $file->ID;
         }
 
-        return $file->ID;
+        return 0;
     }
 
     /**

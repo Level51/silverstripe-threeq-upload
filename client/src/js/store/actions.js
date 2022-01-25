@@ -39,4 +39,8 @@ export default {
   hidePreview({ commit }) {
     commit(types.SET_PREVIEW_VISBILITY, false);
   },
+  deleteFile({ dispatch }) {
+    dispatch('setFile', null);
+    dispatch('hidePreview');
+  }
 };

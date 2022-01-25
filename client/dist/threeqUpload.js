@@ -12376,6 +12376,11 @@ __webpack_require__.r(__webpack_exports__);
   hidePreview: function hidePreview(_ref5) {
     var commit = _ref5.commit;
     commit(_mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PREVIEW_VISBILITY, false);
+  },
+  deleteFile: function deleteFile(_ref6) {
+    var dispatch = _ref6.dispatch;
+    dispatch('setFile', null);
+    dispatch('hidePreview');
   }
 });
 
@@ -12732,10 +12737,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['file'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['hidePreview']))
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['hidePreview', 'deleteFile']))
 });
 
 /***/ }),
@@ -13000,9 +13012,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.payload.config.searchEndpoint;
     }
   }),
-  methods: {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['setFile', 'showPreview'])), {}, {
     selected: function selected(suggestion) {
-      this.$store.dispatch('setFile', suggestion);
+      this.setFile(suggestion);
+      this.showPreview(); // TODO trigger backend call to create ThreeQFile record
     },
     suggest: function suggest() {
       var _this = this;
@@ -13015,7 +13028,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       });
     }
-  }
+  })
 });
 
 /***/ }),
@@ -34465,6 +34478,25 @@ var render = function () {
             ),
           ]
         ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-danger",
+            attrs: { href: "" },
+            on: {
+              click: function ($event) {
+                $event.preventDefault()
+                return _vm.deleteFile.apply(null, arguments)
+              },
+            },
+          },
+          [
+            _vm._v(
+              "\n        " + _vm._s(_vm.$t("preview.deleteCta")) + "\n      "
+            ),
+          ]
+        ),
       ]),
     ]),
     _vm._v(" "),
@@ -48742,7 +48774,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Ändern"},"search":{"placeholder":"Datei suchen"},"generic":{"cancel":"Abbrechen"}}');
+module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Ändern","deleteCta":"Löschen"},"search":{"placeholder":"Datei suchen"},"generic":{"cancel":"Abbrechen"}}');
 
 /***/ }),
 
@@ -48753,7 +48785,7 @@ module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateina
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"preview":{"meta":{"title":"Title","name":"Name","size":"Size"},"changeCta":"Change"},"search":{"placeholder":"Search file"},"generic":{"cancel":"Cancel"}}');
+module.exports = JSON.parse('{"preview":{"meta":{"title":"Title","name":"Name","size":"Size"},"changeCta":"Change","deleteCta":"Delete"},"search":{"placeholder":"Search file"},"generic":{"cancel":"Cancel"}}');
 
 /***/ })
 
