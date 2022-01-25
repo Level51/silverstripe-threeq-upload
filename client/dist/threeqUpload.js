@@ -12810,7 +12810,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _this.isSyncing = true;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_0___default().put(_this.payload.config.syncWithApiEndpoint);
+                return axios__WEBPACK_IMPORTED_MODULE_0___default().put(_this.payload.config.syncWithApiEndpoint, {
+                  fileId: _this.file.id
+                });
 
               case 3:
                 response = _context.sent;

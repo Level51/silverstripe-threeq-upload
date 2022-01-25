@@ -295,16 +295,27 @@ class ThreeQUploadField extends FormField
     /**
      * Trigger a sync with the 3Q api for the linked file (if exists).
      *
+     * @param HTTPRequest $request
+     *
      * @return HTTPResponse
+     *
      * @throws GuzzleException
      * @throws ValidationException
      */
-    public function syncWithApi(): HTTPResponse
+    public function syncWithApi(HTTPRequest $request): HTTPResponse
     {
-        if ($this->getFile()) {
-            $this->getFile()->syncWithApi();
+        $data = json_decode($request->getBody(), true);
 
-            return $this->getJsonResponseObject(json_encode($this->getFile()->flat()));
+        if (isset($data['fileId'])) {
+            if ($file = ThreeQFile::byThreeQId($data['fileId'])) {
+                // Force api sync
+                $file->syncWithApi();
+            } else {
+                $file = ThreeQFile::requireForThreeQId($data['fileId']);
+            }
+
+            // Return (updated) flat file version, disable autoSync as we have forced a sync before
+            return $this->getJsonResponseObject(json_encode($file->flat(false)));
         }
 
         return $this->getJsonResponseObject()->setStatusCode(204);

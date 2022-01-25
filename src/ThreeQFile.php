@@ -39,15 +39,16 @@ class ThreeQFile extends DataObject
     /**
      * Get a flat version of this record.
      *
+     * @param bool $autoSync
      * @return array
      *
      * @throws GuzzleException
      * @throws ValidationException
      */
-    public function flat(): array
+    public function flat(bool $autoSync = true): array
     {
         // If the file was not finished yet, trigger an api sync as it may be finished now
-        if (!$this->IsFinished) {
+        if (!$this->IsFinished && $autoSync) {
             $this->syncWithApi();
         }
 

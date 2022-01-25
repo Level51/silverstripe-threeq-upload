@@ -84,7 +84,7 @@ export default {
     ...mapActions(['hidePreview', 'deleteFile', 'setFile']),
     async syncWithApi() {
       this.isSyncing = true;
-      const response = await axios.put(this.payload.config.syncWithApiEndpoint);
+      const response = await axios.put(this.payload.config.syncWithApiEndpoint, { fileId: this.file.id });
       this.setFile(response.data);
       this.isSyncing = false;
     },
