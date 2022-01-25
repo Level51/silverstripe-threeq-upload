@@ -52,6 +52,7 @@ export default {
   },
   components: { ThreeQSelect, FilePreview, FileUpload },
   created() {
+    this.setLocale();
     this.init();
   },
   computed: {
@@ -62,10 +63,9 @@ export default {
     ...mapActions(['initStore', 'showPreview']),
     async init() {
       await this.initStore(this.serverPayload);
-      this.setLocale();
     },
     setLocale() {
-      const locale = this.payload.lang ?? 'en';
+      const locale = this.serverPayload.lang ?? 'en';
 
       if (this.$i18n) {
         this.$i18n.setLocaleMessage(locale, locales[locale]);

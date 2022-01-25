@@ -12645,6 +12645,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     FileUpload: _components_FileUpload_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   created: function created() {
+    this.setLocale();
     this.init();
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapState)(['payload', 'message', 'previewVisible', 'file'])), (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(['value'])),
@@ -12661,9 +12662,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return _this.initStore(_this.serverPayload);
 
               case 2:
-                _this.setLocale();
-
-              case 3:
               case "end":
                 return _context.stop();
             }
@@ -12672,9 +12670,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     setLocale: function setLocale() {
-      var _this$payload$lang;
+      var _this$serverPayload$l;
 
-      var locale = (_this$payload$lang = this.payload.lang) !== null && _this$payload$lang !== void 0 ? _this$payload$lang : 'en';
+      var locale = (_this$serverPayload$l = this.serverPayload.lang) !== null && _this$serverPayload$l !== void 0 ? _this$serverPayload$l : 'en';
 
       if (this.$i18n) {
         this.$i18n.setLocaleMessage(locale, src_lang__WEBPACK_IMPORTED_MODULE_5__[locale]);
