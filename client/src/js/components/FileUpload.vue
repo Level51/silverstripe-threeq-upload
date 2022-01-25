@@ -171,11 +171,14 @@ export default {
     }
 
     .dz-preview {
+      min-width: 300px;
+
       .dz-image, .dz-success-mark, .dz-error-mark {
         display: none;
       }
       .dz-details {
         display: flex;
+        justify-content: center;
 
         .dz-size {
           margin-right: @space-2;
@@ -183,8 +186,10 @@ export default {
       }
       .dz-progress {
         width: 100%;
-        height: 5px;
+        height: 8px;
         position: relative;
+        margin-top: @space-1;
+        background: @color-border;
 
         .dz-upload {
           position: absolute;

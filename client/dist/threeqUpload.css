@@ -107,6 +107,9 @@
 .threeQUpload .threeQUpload-uploader .vue-dropzone.dz-started .dz-message {
   display: none;
 }
+.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview {
+  min-width: 300px;
+}
 .threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-image,
 .threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-success-mark,
 .threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-error-mark {
@@ -114,14 +117,17 @@
 }
 .threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-details {
   display: flex;
+  justify-content: center;
 }
 .threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-details .dz-size {
   margin-right: 10px;
 }
 .threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-progress {
   width: 100%;
-  height: 5px;
+  height: 8px;
   position: relative;
+  margin-top: 5px;
+  background: #c1cad9;
 }
 .threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-progress .dz-upload {
   position: absolute;
