@@ -12,8 +12,13 @@ export default {
   setFile({ commit }, file) {
     commit(types.SET_FILE, file);
   },
-  setMessage({ commit }, { type, content }) {
-    let sanitizedType = type;
+  setMessage({ commit }, message) {
+    if (!message) {
+      commit(types.SET_MESSAGE, null);
+      return;
+    }
+
+    let sanitizedType = message.type;
 
     if (!sanitizedType) {
       sanitizedType = 'success';
@@ -25,7 +30,7 @@ export default {
 
     commit(types.SET_MESSAGE, {
       type: sanitizedType,
-      content,
+      content: message.content,
     });
   },
   showPreview({ commit }) {

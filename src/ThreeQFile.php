@@ -8,25 +8,26 @@ use SilverStripe\ORM\DataObject;
 /**
  * Class ThreeQFile.
  *
- * @property int    $ThreeQId
- * @property string $Title
- * @property string $Name
- * @property string $Thumbnail
- * @property int    $Size
- * @property float  $Length
+ * @property int     $ThreeQId
+ * @property string  $Title
+ * @property string  $Name
+ * @property string  $Thumbnail
+ * @property boolean $IsFinished
+ * @property int     $Size
+ * @property float   $Length
  */
 class ThreeQFile extends DataObject
 {
     private static $table_name = 'ThreeQFile';
 
     private static $db = [
-        'ThreeQId'  => 'Int',
-        'Title'     => 'Text',
-        'Name'      => 'Text',
-        'Thumbnail' => 'Varchar',
-        'Size'      => 'Float',
-        'Length'    => 'Float'
-        // TODO check further useful fields
+        'ThreeQId'   => 'Int',
+        'Title'      => 'Text',
+        'Name'       => 'Text',
+        'Thumbnail'  => 'Varchar',
+        'Size'       => 'Float',
+        'Length'     => 'Float',
+        'IsFinished' => 'Boolean'
     ];
 
     // TODO on before delete handling?!
@@ -35,12 +36,13 @@ class ThreeQFile extends DataObject
     {
         // TODO maybe add (human readable) length/duration
         return [
-            'id'        => $this->ID,
-            'threeQId'  => $this->ThreeQId,
-            'title'     => $this->Title,
-            'name'      => $this->Name,
-            'thumbnail' => $this->Thumbnail,
-            'size'      => [
+            'id'         => $this->ThreeQId,
+            'dbId'       => $this->ID,
+            'title'      => $this->Title,
+            'name'       => $this->Name,
+            'thumbnail'  => $this->Thumbnail,
+            'isFinished' => $this->IsFinished,
+            'size'       => [
                 'raw'       => $this->Size,
                 'formatted' => File::format_size($this->Size)
             ]
@@ -60,6 +62,7 @@ class ThreeQFile extends DataObject
             $this->Length = $result['Properties']['Length'] ?? 0;
             $this->Size = $result['Properties']['Size'] ?? 0;
             $this->Thumbnail = $result['Metadata']['StandardFilePicture']['ThumbURI'] ?? null;
+            $this->IsFinished = $result['IsFinished'] ?? false;
             $this->write();
         }
     }

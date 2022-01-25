@@ -9,5 +9,8 @@
   },
   "search": {
     "placeholder": "Search file"
+  },
+  "generic": {
+    "cancel": "Cancel"
   }
 }

@@ -90,26 +90,40 @@ class ThreeQApiService
 
     public function getFile($id)
     {
-        $cache = Util::getCache();
-        $cacheKey = 'threeQFile-' . $id;
-
-        if ($cache->has($cacheKey)) {
-            return $cache->get($cacheKey);
-        }
-
         try {
             $response = $this->httpClient
                 ->get('projects/' . $this->getProjectId() . '/files/' . $id);
 
             $result = $response->getBody()->getContents();
-            $result = json_decode($result, true);
-            $cache->set($cacheKey, $result, 300);
-
-            return $result;
+            return json_decode($result, true);
         } catch (\Exception $e) {
             // TODO error handling
             return null;
         }
+    }
+
+    /**
+     * @param $filename
+     * @param $filetype
+     * @return string|null
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @see https://sdn.3qsdn.com/api/doc#post--api-v2-projects-{ProjectId}-files
+     */
+    public function getUploadUrl($filename, $filetype): ?string
+    {
+        $response = $this->httpClient
+            ->post(
+                'projects/' . $this->getProjectId() . '/files',
+                [
+                    'json' => [
+                        'FileName' => $filename,
+                        'FileFormat' => $filetype
+                    ]
+                ]
+            );
+
+        return $response->getHeader('Location')[0];
     }
 
     /**

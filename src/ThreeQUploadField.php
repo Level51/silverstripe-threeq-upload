@@ -10,13 +10,12 @@ use SilverStripe\View\Requirements;
 
 /**
  * @todo
- *   - check allowed file types
  *   - check folder support
  *   - cleanup, rearrange, add return types...
  */
 class ThreeQUploadField extends FormField
 {
-    private static $allowed_actions = ['search'];
+    private static $allowed_actions = ['search', 'getUploadUrl', 'uploaded'];
 
     /**
      * @var int Max file size in MB, overrides the config value if set
@@ -29,7 +28,12 @@ class ThreeQUploadField extends FormField
     private $minSearchChars = 3;
 
     /**
-     * @var int Max duration in seconds until the XHR request is canceled, , overrides the config value if set.
+     * @var string[]
+     */
+    private $allowedFileTypes = ['mp4'];
+
+    /**
+     * @var int Max duration in seconds until the XHR request is canceled, overrides the config value if set.
      */
     protected $timeout;
 
@@ -69,12 +73,14 @@ class ThreeQUploadField extends FormField
                 'lang'            => substr(Security::getCurrentUser()->Locale, 0, 2),
                 'dropzoneOptions' => [
                     'maxFilesize'   => $this->getMaxFileSize(),
-                    'acceptedFiles' => 'mp4', // TODO check
+                    'acceptedFiles' => $this->getAllowedFileTypesForFrontend(),
                     'timeout'       => $this->getTimeout(),
                 ],
                 'config'          => [
-                    'minSearchChars' => $this->minSearchChars,
-                    'searchEndpoint' => $this->Link('search'),
+                    'minSearchChars'          => $this->minSearchChars,
+                    'searchEndpoint'          => $this->Link('search'),
+                    'uploadUrlEndpoint'       => $this->Link('getUploadUrl'),
+                    'successCallbackEndpoint' => $this->Link('uploaded')
                 ]
             ]
         );
@@ -101,13 +107,33 @@ class ThreeQUploadField extends FormField
     }
 
     /**
+     * Get the list of allowed file types in the format needed for the frontend (dropzone).
+     *
+     * @return string
+     */
+    private function getAllowedFileTypesForFrontend()
+    {
+        $types = [];
+        foreach ($this->allowedFileTypes as $type) {
+            $types[] = '.' . Util::sanitizeFileType($type);
+        }
+
+        return implode(',', $types);
+    }
+
+    /**
      * Get the file record according to the value if set.
      *
      * @return null|\SilverStripe\ORM\DataObject|ThreeQFile
      */
     public function getFile()
     {
-        if ($this->Value()) {
+        if (
+            $this->Value() &&
+            is_object($this->Value()) &&
+            get_class($this->Value()) === ThreeQFile::class &&
+            $this->Value()->exists()
+        ) {
             return $this->Value();
         }
 
@@ -155,6 +181,19 @@ class ThreeQUploadField extends FormField
         return $this;
     }
 
+    private function getJsonResponseObject($body = null): HTTPResponse
+    {
+        $response = HTTPResponse::create();
+        $response->addHeader('Access-Control-Allow-Origin', '*');
+        $response->addHeader('Content-Type', 'application/json');
+
+        if ($body) {
+            $response = $response->setBody($body);
+        }
+
+        return $response;
+    }
+
     /**
      * Endpoint for search requests.
      *
@@ -180,10 +219,41 @@ class ThreeQUploadField extends FormField
             ];
         }
 
-        $response = HTTPResponse::create();
-        $response->addHeader('Access-Control-Allow-Origin', '*');
-        $response->addHeader('Content-Type', 'application/json');
+        return $this->getJsonResponseObject(json_encode($payload));
+    }
 
-        return $response->setBody(json_encode($payload));
+    public function getUploadUrl(HTTPRequest $request)
+    {
+        $data = json_decode($request->getBody(), true);
+        $response = $this->getJsonResponseObject();
+
+        if (!isset($data['name']) || !is_string($data['name']) || trim($data['name']) === '') {
+            return $response->setStatusCode(400)->setBody('missing_name');
+        }
+
+        if (!isset($data['type']) || !is_string($data['type']) || trim($data['type']) === '') {
+            return $response->setStatusCode(400)->setBody('missing_file_type');
+        }
+
+        $name = trim($data['name']);
+        $type = Util::sanitizeFileType(trim($data['type']));
+
+        try {
+            return $response->setBody(ThreeQApiService::singleton()->getUploadUrl($name, $type));
+        } catch (\Exception $e) {
+            $response->setStatusCode(500);
+            return $response->setBody($e->getMessage());
+        }
+    }
+
+    public function uploaded(HTTPRequest $request)
+    {
+        $data = json_decode($request->getBody(), true);
+
+        if (!isset($data['fileId'])) {
+            return $this->getJsonResponseObject('missing_file_id')->setStatusCode(400);
+        }
+
+        return $this->getJsonResponseObject(json_encode(ThreeQFile::createForThreeQId($data['fileId'])->flat()));
     }
 }

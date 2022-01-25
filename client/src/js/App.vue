@@ -14,6 +14,8 @@
     <template v-if="!previewVisible">
       <ThreeQSelect />
 
+      <FileUpload />
+
       <div v-if="file" class="mt-4">
         <a
           class="btn btn-primary"
@@ -36,6 +38,7 @@
 import axios from 'axios';
 import { mapState, mapGetters, mapActions } from 'vuex';
 import ThreeQSelect from './components/Select.vue';
+import FileUpload from './components/FileUpload.vue';
 import FilePreview from './components/FilePreview.vue';
 import 'src/icons';
 import * as locales from 'src/lang';
@@ -47,7 +50,7 @@ export default {
       required: true,
     },
   },
-  components: { ThreeQSelect, FilePreview },
+  components: { ThreeQSelect, FilePreview, FileUpload },
   created() {
     this.init();
   },
