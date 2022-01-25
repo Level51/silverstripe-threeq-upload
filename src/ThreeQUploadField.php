@@ -18,10 +18,6 @@ use SilverStripe\View\Requirements;
  *
  * Includes a select field for existing files, an upload component (using dropzone) and a preview.
  *
- * @todo
- *   - check folder support
- *   - cleanup, rearrange, add return types...
- *
  * @package Level51\ThreeQ
  */
 class ThreeQUploadField extends FormField
