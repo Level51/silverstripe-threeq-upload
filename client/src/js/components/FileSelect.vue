@@ -77,7 +77,7 @@ export default {
         if (this.cleanTerm.length < this.payload.config.minSearchChars) resolve([]);
         else {
           axios
-            .get(this.endpoint)
+            .get(`${this.endpoint}?query=${this.cleanTerm}`)
             .then((response) => {
               resolve(response.data);
               this.isLoading = false;

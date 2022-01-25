@@ -12884,7 +12884,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isLoading = true;
       return new Promise(function (resolve) {
         if (_this2.cleanTerm.length < _this2.payload.config.minSearchChars) resolve([]);else {
-          axios__WEBPACK_IMPORTED_MODULE_1___default().get(_this2.endpoint).then(function (response) {
+          axios__WEBPACK_IMPORTED_MODULE_1___default().get("".concat(_this2.endpoint, "?query=").concat(_this2.cleanTerm)).then(function (response) {
             resolve(response.data);
             _this2.isLoading = false;
           });
