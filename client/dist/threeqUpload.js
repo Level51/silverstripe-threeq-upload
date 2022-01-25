@@ -13037,6 +13037,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return _this.uploadUrl;
         },
         maxFiles: 1,
+        timeout: 0,
         autoProcessQueue: false,
         method: 'put',
         headers: {

@@ -41,6 +41,7 @@ export default {
         ...this.payload.dropzoneOptions,
         url: () => this.uploadUrl,
         maxFiles: 1,
+        timeout: 0,
         autoProcessQueue: false,
         method: 'put',
         headers: {
