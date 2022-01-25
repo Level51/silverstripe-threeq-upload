@@ -84,6 +84,7 @@ export default {
     box-shadow: none;
     -webkit-appearance: none;
     border-radius: @border-radius;
+    text-align: center;
 
     &:focus {
       border-color: @color-highlight;

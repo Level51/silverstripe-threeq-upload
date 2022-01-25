@@ -1,6 +1,6 @@
-/*!************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/less-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./client/src/js/components/Select.vue?vue&type=style&index=0&lang=less& ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************/
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/less-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./client/src/js/components/FileSelect.vue?vue&type=style&index=0&lang=less& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
 .threeQUpload .threeQUpload-select input[type=text] {
   display: block;
   width: 100%;
@@ -13,6 +13,7 @@
   box-shadow: none;
   -webkit-appearance: none;
   border-radius: 5px;
+  text-align: center;
 }
 .threeQUpload .threeQUpload-select input[type=text]:focus {
   border-color: #66afe9;
@@ -139,6 +140,16 @@
 }
 .threeQUpload .threeQUpload-preview .threeQUpload-preview-meta strong {
   display: block;
+}
+
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/less-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./client/src/js/App.vue?vue&type=style&index=0&lang=less& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+.threeQUpload-orSelectHint {
+  margin: 10px 0;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 

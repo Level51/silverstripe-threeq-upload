@@ -9,10 +9,11 @@
     "deleteCta": "Löschen"
   },
   "search": {
-    "placeholder": "Datei suchen"
+    "placeholder": "Datei auswählen"
   },
   "generic": {
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "orSelectHint": "oder"
   },
   "upload": {
     "title": "Neue Datei hochladen",

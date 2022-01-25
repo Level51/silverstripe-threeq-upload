@@ -12,9 +12,13 @@
     </template>
 
     <template v-if="!previewVisible">
-      <ThreeQSelect />
-
       <FileUpload />
+
+      <div class="threeQUpload-orSelectHint">
+        {{ $t('generic.orSelectHint') }}
+      </div>
+
+      <FileSelect />
 
       <div v-if="file" class="mt-4">
         <a
@@ -37,7 +41,7 @@
 <script>
 import axios from 'axios';
 import { mapState, mapGetters, mapActions } from 'vuex';
-import ThreeQSelect from './components/Select.vue';
+import FileSelect from './components/FileSelect.vue';
 import FileUpload from './components/FileUpload.vue';
 import FilePreview from './components/FilePreview.vue';
 import 'src/icons';
@@ -50,7 +54,7 @@ export default {
       required: true,
     },
   },
-  components: { ThreeQSelect, FilePreview, FileUpload },
+  components: { FileSelect, FilePreview, FileUpload },
   created() {
     this.setLocale();
     this.init();
@@ -75,3 +79,14 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+@import "~styles/base";
+
+.threeQUpload-orSelectHint {
+  margin: @space-2 0;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+</style>
