@@ -12335,6 +12335,8 @@ __webpack_require__.r(__webpack_exports__);
   initStore: function initStore(_ref, payload) {
     var commit = _ref.commit,
         dispatch = _ref.dispatch;
+    // Trigger a reset first to prevent keeping old data
+    commit(_mutation_types__WEBPACK_IMPORTED_MODULE_0__.RESET_STORE);
     commit(_mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PAYLOAD, payload);
 
     if (payload.file) {
@@ -12422,30 +12424,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.dev.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./actions */ "./client/src/js/store/actions.js");
-/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mutations */ "./client/src/js/store/mutations.js");
-/* harmony import */ var _getters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getters */ "./client/src/js/store/getters.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.dev.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./state */ "./client/src/js/store/state.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions */ "./client/src/js/store/actions.js");
+/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mutations */ "./client/src/js/store/mutations.js");
+/* harmony import */ var _getters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getters */ "./client/src/js/store/getters.js");
 
 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_3___default().use(vuex__WEBPACK_IMPORTED_MODULE_4__["default"]);
-var state = {
-  payload: null,
-  file: null,
-  message: null,
-  previewVisible: false,
-  isUploadRunning: false
-};
-var store = new vuex__WEBPACK_IMPORTED_MODULE_4__["default"].Store({
-  state: state,
-  actions: _actions__WEBPACK_IMPORTED_MODULE_0__["default"],
-  mutations: _mutations__WEBPACK_IMPORTED_MODULE_1__["default"],
-  getters: _getters__WEBPACK_IMPORTED_MODULE_2__["default"]
+
+vue__WEBPACK_IMPORTED_MODULE_4___default().use(vuex__WEBPACK_IMPORTED_MODULE_5__["default"]);
+var store = new vuex__WEBPACK_IMPORTED_MODULE_5__["default"].Store({
+  state: _state__WEBPACK_IMPORTED_MODULE_0__.state,
+  actions: _actions__WEBPACK_IMPORTED_MODULE_1__["default"],
+  mutations: _mutations__WEBPACK_IMPORTED_MODULE_2__["default"],
+  getters: _getters__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
 
@@ -12464,13 +12461,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SET_FILE": () => (/* binding */ SET_FILE),
 /* harmony export */   "SET_MESSAGE": () => (/* binding */ SET_MESSAGE),
 /* harmony export */   "SET_PREVIEW_VISBILITY": () => (/* binding */ SET_PREVIEW_VISBILITY),
-/* harmony export */   "SET_IS_UPLOAD_RUNNING_STATE": () => (/* binding */ SET_IS_UPLOAD_RUNNING_STATE)
+/* harmony export */   "SET_IS_UPLOAD_RUNNING_STATE": () => (/* binding */ SET_IS_UPLOAD_RUNNING_STATE),
+/* harmony export */   "RESET_STORE": () => (/* binding */ RESET_STORE)
 /* harmony export */ });
 var SET_PAYLOAD = 'SET_PAYLOAD';
 var SET_FILE = 'SET_FILE';
 var SET_MESSAGE = 'SET_MESSAGE';
 var SET_PREVIEW_VISBILITY = 'SET_PREVIEW_VISBILITY';
 var SET_IS_UPLOAD_RUNNING_STATE = 'SET_IS_UPLOAD_RUNNING_STATE';
+var RESET_STORE = 'RESET_STORE';
 
 /***/ }),
 
@@ -12486,9 +12485,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _mutation_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mutation-types */ "./client/src/js/store/mutation-types.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./state */ "./client/src/js/store/state.js");
 var _types$SET_PAYLOAD$ty;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_types$SET_PAYLOAD$ty = {}, _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_PAYLOAD, function (state, payload) {
@@ -12501,7 +12502,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state.previewVisible = isVisible;
 }), _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.SET_IS_UPLOAD_RUNNING_STATE, function (state, isUploadRunning) {
   state.isUploadRunning = isUploadRunning;
+}), _defineProperty(_types$SET_PAYLOAD$ty, _mutation_types__WEBPACK_IMPORTED_MODULE_0__.RESET_STORE, function (state) {
+  Object.keys(_state__WEBPACK_IMPORTED_MODULE_1__.initialState).forEach(function (key) {
+    state[key] = _state__WEBPACK_IMPORTED_MODULE_1__.initialState[key];
+  });
 }), _types$SET_PAYLOAD$ty);
+
+/***/ }),
+
+/***/ "./client/src/js/store/state.js":
+/*!**************************************!*\
+  !*** ./client/src/js/store/state.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "state": () => (/* binding */ state),
+/* harmony export */   "initialState": () => (/* binding */ initialState)
+/* harmony export */ });
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var initialState = {
+  payload: null,
+  file: null,
+  message: null,
+  previewVisible: false,
+  isUploadRunning: false
+};
+
+var state = _objectSpread({}, initialState);
+
+
 
 /***/ }),
 

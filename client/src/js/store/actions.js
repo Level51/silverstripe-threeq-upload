@@ -2,6 +2,9 @@ import * as types from './mutation-types';
 
 export default {
   initStore({ commit, dispatch }, payload) {
+    // Trigger a reset first to prevent keeping old data
+    commit(types.RESET_STORE);
+
     commit(types.SET_PAYLOAD, payload);
 
     if (payload.file) {
