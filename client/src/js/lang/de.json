@@ -5,14 +5,14 @@
       "name": "Dateiname",
       "size": "Größe"
     },
-    "changeCta": "Ändern",
-    "deleteCta": "Löschen"
+    "changeCta": "Andere Datei wählen",
+    "deleteCta": "Datei entfernen"
   },
   "search": {
-    "placeholder": "Datei auswählen"
+    "placeholder": "Datei suchen"
   },
   "generic": {
-    "cancel": "Abbrechen",
+    "cancelChange": "Aktuelle Datei behalten",
     "orSelectHint": "oder"
   },
   "upload": {

@@ -174,11 +174,23 @@
 /*!**********************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/less-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./client/src/js/App.vue?vue&type=style&index=0&lang=less& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************/
-.threeQUpload-orSelectHint {
+.threeQUpload .threeQUpload-orSelectHint {
   margin: 10px 0;
   text-align: center;
   font-size: 1.25rem;
   font-weight: bold;
+}
+.threeQUpload .threeQUpload-keepFileHint .btn {
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+.threeQUpload .threeQUpload-keepFileHint .threeQUpload-keepFileHint-filename {
+  font-size: 0.75rem;
+  font-weight: normal;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 

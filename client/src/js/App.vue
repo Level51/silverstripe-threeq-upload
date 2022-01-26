@@ -22,13 +22,24 @@
 
       <FileSelect />
 
-      <div v-if="file && !isUploadRunning" class="mt-4">
-        <a
-          class="btn btn-primary"
-          href=""
-          @click.prevent="showPreview" >
-          {{ $t('generic.cancel') }}
-        </a>
+      <div
+        class="threeQUpload-keepFileHint"
+        v-if="file && !isUploadRunning">
+        <div class="threeQUpload-orSelectHint">
+          {{ $t('generic.orSelectHint') }}
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <a
+            class="btn btn-light"
+            href=""
+            @click.prevent="showPreview">
+            {{ $t('generic.cancelChange') }}
+
+            <div class="threeQUpload-keepFileHint-filename">
+              {{ file.title }}
+            </div>
+          </a>
+        </div>
       </div>
     </template>
 
@@ -85,10 +96,28 @@ export default {
 <style lang="less">
 @import "~styles/base";
 
-.threeQUpload-orSelectHint {
-  margin: @space-2 0;
-  text-align: center;
-  font-size: 1.25rem;
-  font-weight: bold;
+.threeQUpload {
+  .threeQUpload-orSelectHint {
+    margin: @space-2 0;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  .threeQUpload-keepFileHint {
+    .btn {
+      font-size: 1.15rem;
+      font-weight: bold;
+    }
+
+    .threeQUpload-keepFileHint-filename {
+      font-size: 0.75rem;
+      font-weight: normal;
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 }
 </style>

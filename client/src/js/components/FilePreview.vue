@@ -44,14 +44,14 @@
 
         <div>
           <a
-            class="btn btn-primary"
+            class="btn btn-outline-primary"
             href=""
             @click.prevent="hidePreview">
             {{ $t('preview.changeCta') }}
           </a>
 
           <a
-            class="btn btn-danger"
+            class="btn btn-outline-danger"
             href=""
             @click.prevent="deleteFile">
             {{ $t('preview.deleteCta') }}

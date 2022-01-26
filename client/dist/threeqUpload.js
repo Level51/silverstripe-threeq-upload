@@ -12676,6 +12676,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -34605,24 +34616,51 @@ var render = function () {
             _c("FileSelect"),
             _vm._v(" "),
             _vm.file && !_vm.isUploadRunning
-              ? _c("div", { staticClass: "mt-4" }, [
+              ? _c("div", { staticClass: "threeQUpload-keepFileHint" }, [
+                  _c("div", { staticClass: "threeQUpload-orSelectHint" }, [
+                    _vm._v(
+                      "\n        " +
+                        _vm._s(_vm.$t("generic.orSelectHint")) +
+                        "\n      "
+                    ),
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { href: "" },
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.showPreview.apply(null, arguments)
-                        },
-                      },
-                    },
+                    "div",
+                    { staticClass: "d-flex flex-column align-items-center" },
                     [
-                      _vm._v(
-                        "\n        " +
-                          _vm._s(_vm.$t("generic.cancel")) +
-                          "\n      "
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-light",
+                          attrs: { href: "" },
+                          on: {
+                            click: function ($event) {
+                              $event.preventDefault()
+                              return _vm.showPreview.apply(null, arguments)
+                            },
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\n          " +
+                              _vm._s(_vm.$t("generic.cancelChange")) +
+                              "\n\n          "
+                          ),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "threeQUpload-keepFileHint-filename",
+                            },
+                            [
+                              _vm._v(
+                                "\n            " +
+                                  _vm._s(_vm.file.title) +
+                                  "\n          "
+                              ),
+                            ]
+                          ),
+                        ]
                       ),
                     ]
                   ),
@@ -34744,7 +34782,7 @@ var render = function () {
           _c(
             "a",
             {
-              staticClass: "btn btn-primary",
+              staticClass: "btn btn-outline-primary",
               attrs: { href: "" },
               on: {
                 click: function ($event) {
@@ -34765,7 +34803,7 @@ var render = function () {
           _c(
             "a",
             {
-              staticClass: "btn btn-danger",
+              staticClass: "btn btn-outline-danger",
               attrs: { href: "" },
               on: {
                 click: function ($event) {
@@ -49098,7 +49136,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Ändern","deleteCta":"Löschen"},"search":{"placeholder":"Datei auswählen"},"generic":{"cancel":"Abbrechen","orSelectHint":"oder"},"upload":{"title":"Neue Datei hochladen","subTitle":"per Drag & Drop oder Klick"},"inThreeQProgress":{"headline":"In Bearbeitung","description":"Die Datei wird noch bei 3Q bearbeitet","updateCta":"Status aktualisieren"}}');
+module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Andere Datei wählen","deleteCta":"Datei entfernen"},"search":{"placeholder":"Datei suchen"},"generic":{"cancelChange":"Aktuelle Datei behalten","orSelectHint":"oder"},"upload":{"title":"Neue Datei hochladen","subTitle":"per Drag & Drop oder Klick"},"inThreeQProgress":{"headline":"In Bearbeitung","description":"Die Datei wird noch bei 3Q bearbeitet","updateCta":"Status aktualisieren"}}');
 
 /***/ }),
 
@@ -49109,7 +49147,7 @@ module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateina
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"preview":{"meta":{"title":"Title","name":"Name","size":"Size"},"changeCta":"Change","deleteCta":"Delete"},"search":{"placeholder":"Select file"},"generic":{"cancel":"Cancel","orSelectHint":"or"},"upload":{"title":"Upload new file","subTitle":"via Drag & Drop or click"},"inThreeQProgress":{"headline":"In progress","description":"The file is still being processed by 3Q","updateCta":"Update status"}}');
+module.exports = JSON.parse('{"preview":{"meta":{"title":"Title","name":"Name","size":"Size"},"changeCta":"Choose other file","deleteCta":"Remove file"},"search":{"placeholder":"Search file"},"generic":{"cancel":"Keep current file","orSelectHint":"or"},"upload":{"title":"Upload new file","subTitle":"via Drag & Drop or click"},"inThreeQProgress":{"headline":"In progress","description":"The file is still being processed by 3Q","updateCta":"Update status"}}');
 
 /***/ })
 
