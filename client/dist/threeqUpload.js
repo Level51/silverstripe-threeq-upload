@@ -12256,7 +12256,7 @@ var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_4__["default"]({
 
 var render = function render(el) {
   new (vue__WEBPACK_IMPORTED_MODULE_3___default())({
-    store: _store__WEBPACK_IMPORTED_MODULE_2__["default"],
+    store: (0,_store__WEBPACK_IMPORTED_MODULE_2__.createStore)(),
     i18n: i18n,
     render: function render(h) {
       return h(src_App_vue__WEBPACK_IMPORTED_MODULE_0__["default"], {
@@ -12422,7 +12422,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "createStore": () => (/* binding */ createStore)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.dev.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_4__);
@@ -12431,6 +12431,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions */ "./client/src/js/store/actions.js");
 /* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mutations */ "./client/src/js/store/mutations.js");
 /* harmony import */ var _getters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getters */ "./client/src/js/store/getters.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -12438,13 +12444,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 vue__WEBPACK_IMPORTED_MODULE_4___default().use(vuex__WEBPACK_IMPORTED_MODULE_5__["default"]);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_5__["default"].Store({
-  state: _state__WEBPACK_IMPORTED_MODULE_0__.state,
-  actions: _actions__WEBPACK_IMPORTED_MODULE_1__["default"],
-  mutations: _mutations__WEBPACK_IMPORTED_MODULE_2__["default"],
-  getters: _getters__WEBPACK_IMPORTED_MODULE_3__["default"]
-});
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
+
+var createStore = function createStore() {
+  return new vuex__WEBPACK_IMPORTED_MODULE_5__["default"].Store({
+    state: function state() {
+      return _objectSpread({}, _state__WEBPACK_IMPORTED_MODULE_0__.state);
+    },
+    actions: _actions__WEBPACK_IMPORTED_MODULE_1__["default"],
+    mutations: _mutations__WEBPACK_IMPORTED_MODULE_2__["default"],
+    getters: _getters__WEBPACK_IMPORTED_MODULE_3__["default"]
+  });
+};
+
+
 
 /***/ }),
 
