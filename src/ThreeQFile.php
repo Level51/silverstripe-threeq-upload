@@ -83,10 +83,12 @@ class ThreeQFile extends DataObject
             return;
         }
 
+        $sanitizeText = fn($text) => $text ? str_replace('\'', '', $text) : null;
+
         $result = ThreeQApiService::singleton()->getFile($this->ThreeQId);
         if (!empty($result)) {
-            $this->Name = $result['Name'] ?? null;
-            $this->Title = $result['Metadata']['Title'] ?? null;
+            $this->Name = $sanitizeText($result['Name'] ?? null);
+            $this->Title = $sanitizeText($result['Metadata']['Title'] ?? null);
             $this->Length = $result['Properties']['Length'] ?? 0;
             $this->Size = $result['Properties']['Size'] ?? 0;
             $this->Thumbnail = $result['Metadata']['StandardFilePicture']['ThumbURI'] ?? null;
