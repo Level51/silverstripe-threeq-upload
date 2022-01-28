@@ -9,7 +9,7 @@
     "deleteCta": "Remove file"
   },
   "search": {
-    "placeholder": "Search file"
+    "placeholder": "Search by file name"
   },
   "generic": {
     "cancel": "Keep current file",

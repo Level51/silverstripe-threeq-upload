@@ -49148,7 +49148,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Andere Datei wählen","deleteCta":"Datei entfernen"},"search":{"placeholder":"Datei suchen"},"generic":{"cancelChange":"Aktuelle Datei behalten","orSelectHint":"oder"},"upload":{"title":"Neue Datei hochladen","subTitle":"per Drag & Drop oder Klick"},"inThreeQProgress":{"headline":"In Bearbeitung","description":"Die Datei wird noch bei 3Q bearbeitet","updateCta":"Status aktualisieren"}}');
+module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateiname","size":"Größe"},"changeCta":"Andere Datei wählen","deleteCta":"Datei entfernen"},"search":{"placeholder":"Suche nach Dateiname"},"generic":{"cancelChange":"Aktuelle Datei behalten","orSelectHint":"oder"},"upload":{"title":"Neue Datei hochladen","subTitle":"per Drag & Drop oder Klick"},"inThreeQProgress":{"headline":"In Bearbeitung","description":"Die Datei wird noch bei 3Q bearbeitet","updateCta":"Status aktualisieren"}}');
 
 /***/ }),
 
@@ -49159,7 +49159,7 @@ module.exports = JSON.parse('{"preview":{"meta":{"title":"Titel","name":"Dateina
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"preview":{"meta":{"title":"Title","name":"Name","size":"Size"},"changeCta":"Choose other file","deleteCta":"Remove file"},"search":{"placeholder":"Search file"},"generic":{"cancel":"Keep current file","orSelectHint":"or"},"upload":{"title":"Upload new file","subTitle":"via Drag & Drop or click"},"inThreeQProgress":{"headline":"In progress","description":"The file is still being processed by 3Q","updateCta":"Update status"}}');
+module.exports = JSON.parse('{"preview":{"meta":{"title":"Title","name":"Name","size":"Size"},"changeCta":"Choose other file","deleteCta":"Remove file"},"search":{"placeholder":"Search by file name"},"generic":{"cancel":"Keep current file","orSelectHint":"or"},"upload":{"title":"Upload new file","subTitle":"via Drag & Drop or click"},"inThreeQProgress":{"headline":"In progress","description":"The file is still being processed by 3Q","updateCta":"Update status"}}');
 
 /***/ })
 
