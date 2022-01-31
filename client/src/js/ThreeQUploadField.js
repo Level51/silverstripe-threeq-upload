@@ -2,7 +2,7 @@ import Vue from 'vue';
 import ThreeQUpload from 'src/App.vue';
 import VueI18n from 'vue-i18n';
 import watchElement from './util';
-import store from './store';
+import { createStore } from './store';
 
 Vue.use(VueI18n);
 
@@ -13,7 +13,7 @@ const i18n = new VueI18n({
 
 const render = (el) => {
   new Vue({
-    store,
+    store: createStore(),
     i18n,
     render(h) {
       return h(ThreeQUpload, {

@@ -7,7 +7,41 @@
       {{ message.content }}
     </div>
 
-    <ThreeQSelect />
+    <template v-if="previewVisible">
+      <FilePreview />
+    </template>
+
+    <template v-if="!previewVisible">
+      <template v-if="payload.config.uploadsEnabled">
+        <FileUpload />
+
+        <div class="threeQUpload-orSelectHint">
+          {{ $t('generic.orSelectHint') }}
+        </div>
+      </template>
+
+      <FileSelect />
+
+      <div
+        class="threeQUpload-keepFileHint"
+        v-if="file && !isUploadRunning">
+        <div class="threeQUpload-orSelectHint">
+          {{ $t('generic.orSelectHint') }}
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <a
+            class="btn btn-light"
+            href=""
+            @click.prevent="showPreview">
+            {{ $t('generic.cancelChange') }}
+
+            <div class="threeQUpload-keepFileHint-filename">
+              {{ file.title }}
+            </div>
+          </a>
+        </div>
+      </div>
+    </template>
 
     <input
       type="hidden"
@@ -20,7 +54,9 @@
 <script>
 import axios from 'axios';
 import { mapState, mapGetters, mapActions } from 'vuex';
-import ThreeQSelect from './components/Select.vue';
+import FileSelect from './components/FileSelect.vue';
+import FileUpload from './components/FileUpload.vue';
+import FilePreview from './components/FilePreview.vue';
 import 'src/icons';
 import * as locales from 'src/lang';
 
@@ -31,22 +67,22 @@ export default {
       required: true,
     },
   },
-  components: { ThreeQSelect },
+  components: { FileSelect, FilePreview, FileUpload },
   created() {
+    this.setLocale();
     this.init();
   },
   computed: {
-    ...mapState(['payload', 'message']),
+    ...mapState(['payload', 'message', 'previewVisible', 'file', 'isUploadRunning']),
     ...mapGetters(['value']),
   },
   methods: {
-    ...mapActions(['initStore']),
+    ...mapActions(['initStore', 'showPreview']),
     async init() {
       await this.initStore(this.serverPayload);
-      this.setLocale();
     },
     setLocale() {
-      const locale = this.payload.lang ?? 'en';
+      const locale = this.serverPayload.lang ?? 'en';
 
       if (this.$i18n) {
         this.$i18n.setLocaleMessage(locale, locales[locale]);
@@ -56,3 +92,32 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+@import "~styles/base";
+
+.threeQUpload {
+  .threeQUpload-orSelectHint {
+    margin: @space-2 0;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  .threeQUpload-keepFileHint {
+    .btn {
+      font-size: 1.15rem;
+      font-weight: bold;
+    }
+
+    .threeQUpload-keepFileHint-filename {
+      font-size: 0.75rem;
+      font-weight: normal;
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+</style>

@@ -3,12 +3,16 @@
 namespace Level51\ThreeQ;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\SimpleCache\InvalidArgumentException;
+use SilverStripe\Core\Environment;
 use SilverStripe\Core\Injector\Injectable;
 
 /**
- * Simple service class for parts of the 3Q API.
+ * Service class for the api communication with 3Q.
  *
- * @package T1\Subplatform
+ * @package Level51\ThreeQ
  *
  * @see https://sdn.3qsdn.com/api/doc
  */
@@ -21,11 +25,11 @@ class ThreeQApiService
 
     public function __construct()
     {
-        if (!($apiKey = Util::config()->get('api_key'))) {
+        if (!($apiKey = Environment::getEnv('THREEQ_API_KEY'))) {
             user_error('Missing 3Q Api Key');
         }
 
-        if (!Util::config()->get('project_id')) {
+        if (!Environment::getEnv('THREEQ_PROJECT_ID')) {
             user_error('Missing 3Q project id');
         }
 
@@ -41,7 +45,7 @@ class ThreeQApiService
 
     public function getProjectId(): string
     {
-        return Util::config()->get('project_id');
+        return Environment::getEnv('THREEQ_PROJECT_ID');
     }
 
     /**
@@ -53,7 +57,9 @@ class ThreeQApiService
      *
      * @return array
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      *
      * @see https://sdn.3qsdn.com/api/doc#get--api-v2-projects-{ProjectId}-files
      */
@@ -88,24 +94,22 @@ class ThreeQApiService
         }
     }
 
-    public function getFile($id)
+    /**
+     * Get detailed information for a specific file from 3Q.
+     *
+     * @param string|int $id
+     *
+     * @return array|null
+     *
+     * @throws GuzzleException
+     */
+    public function getFile($id): ?array
     {
-        $cache = Util::getCache();
-        $cacheKey = 'threeQFile-' . $id;
-
-        if ($cache->has($cacheKey)) {
-            return $cache->get($cacheKey);
-        }
-
         try {
             $response = $this->httpClient
                 ->get('projects/' . $this->getProjectId() . '/files/' . $id);
 
-            $result = $response->getBody()->getContents();
-            $result = json_decode($result, true);
-            $cache->set($cacheKey, $result, 300);
-
-            return $result;
+            return json_decode($response->getBody()->getContents(), true);
         } catch (\Exception $e) {
             // TODO error handling
             return null;
@@ -113,11 +117,43 @@ class ThreeQApiService
     }
 
     /**
+     * Request an upload url from 3Q for the given file.
+     *
+     * The actual file upload has to be done against the url returned by this function.
+     *
+     * @param string $filename
+     * @param string $filetype
+     *
+     * @return string|null
+     *
+     * @throws GuzzleException
+     *
+     * @see https://sdn.3qsdn.com/api/doc#post--api-v2-projects-{ProjectId}-files
+     */
+    public function getUploadUrl(string $filename, string $filetype): ?string
+    {
+        $response = $this->httpClient
+            ->post(
+                'projects/' . $this->getProjectId() . '/files',
+                [
+                    'json' => [
+                        'FileName' => $filename,
+                        'FileFormat' => $filetype
+                    ]
+                ]
+            );
+
+        return $response->getHeader('Location')[0];
+    }
+
+    /**
      * Get a list of all playout ids linked to the given file.
      *
-     * @param $fileId
+     * @param string|int $fileId
+     *
      * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @throws GuzzleException
      *
      * @see https://sdn.3qsdn.com/api/doc#get--api-v2-projects-{ProjectId}-files-{FileId}-playouts
      */
@@ -134,7 +170,7 @@ class ThreeQApiService
 
             return $result['FilePlayouts'] ?? [];
         } catch (\Exception $e) {
-            // TODO error hanlding
+            // TODO error handling
             return [];
         }
     }

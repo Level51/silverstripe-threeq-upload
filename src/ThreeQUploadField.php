@@ -2,21 +2,27 @@
 
 namespace Level51\ThreeQ;
 
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Forms\FormField;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\ValidationException;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
 
 /**
- * @todo
- *   - check allowed file types
- *   - check folder support
- *   - cleanup, rearrange, add return types...
+ * CMS field for 3Q file handling.
+ *
+ * Includes a select field for existing files, an upload component (using dropzone) and a preview.
+ *
+ * @package Level51\ThreeQ
  */
 class ThreeQUploadField extends FormField
 {
-    private static $allowed_actions = ['search'];
+    private static $allowed_actions = ['search', 'getUploadUrl', 'uploaded', 'selectFile', 'syncWithApi'];
 
     /**
      * @var int Max file size in MB, overrides the config value if set
@@ -29,9 +35,14 @@ class ThreeQUploadField extends FormField
     private $minSearchChars = 3;
 
     /**
-     * @var int Max duration in seconds until the XHR request is canceled, , overrides the config value if set.
+     * @var string[]
      */
-    protected $timeout;
+    private $allowedFileTypes = ['mp4'];
+
+    /**
+     * @var bool Whether or not new file uploads are enabled
+     */
+    private $uploadsEnabled = true;
 
     public function Field($properties = array())
     {
@@ -45,19 +56,22 @@ class ThreeQUploadField extends FormField
     {
         $value = $this->value;
 
-        if (!($file = ThreeQFile::byThreeQId($value))) {
-            $file = ThreeQFile::createForThreeQId($value);
+        if ($value) {
+            return ThreeQFile::requireForThreeQId($value)->ID;
         }
 
-        return $file->ID;
+        return 0;
     }
 
     /**
      * Get frontend payload.
      *
      * @return string
+     *
+     * @throws GuzzleException
+     * @throws ValidationException
      */
-    public function getPayload()
+    public function getPayload(): string
     {
         return json_encode(
             [
@@ -69,58 +83,87 @@ class ThreeQUploadField extends FormField
                 'lang'            => substr(Security::getCurrentUser()->Locale, 0, 2),
                 'dropzoneOptions' => [
                     'maxFilesize'   => $this->getMaxFileSize(),
-                    'acceptedFiles' => 'mp4', // TODO check
-                    'timeout'       => $this->getTimeout(),
+                    'acceptedFiles' => $this->getAllowedFileTypesForFrontend()
                 ],
                 'config'          => [
-                    'minSearchChars' => $this->minSearchChars,
-                    'searchEndpoint' => $this->Link('search'),
+                    'uploadsEnabled'          => $this->getUploadsEnabledState(),
+                    'minSearchChars'          => $this->minSearchChars,
+                    'searchEndpoint'          => $this->Link('search'),
+                    'selectFileEndpoint'      => $this->Link('selectFile'),
+                    'uploadUrlEndpoint'       => $this->Link('getUploadUrl'),
+                    'successCallbackEndpoint' => $this->Link('uploaded'),
+                    'syncWithApiEndpoint'     => $this->Link('syncWithApi')
                 ]
             ]
         );
     }
 
+    // <editor-fold defaultstate="collapsed" desc="getter">
+
     /**
      * The max allowed file size.
      *
-     * @return int
+     * @return int|null
      */
-    public function getMaxFileSize()
+    public function getMaxFileSize(): ?int
     {
         return $this->maxFileSize ?: self::config()->get('maxFileSize');
     }
 
     /**
-     * Get the timeout for the dropzone component.
+     * Get the list of allowed file types in the format needed for the frontend (dropzone).
      *
-     * @return mixed
+     * @return string
      */
-    public function getTimeout()
+    private function getAllowedFileTypesForFrontend(): string
     {
-        return ($this->timeout ?: self::config()->get('timeout')) * 1000;
+        $types = [];
+        foreach ($this->allowedFileTypes as $type) {
+            $types[] = '.' . Util::sanitizeFileType($type);
+        }
+
+        return implode(',', $types);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUploadsEnabledState(): bool
+    {
+        return $this->uploadsEnabled;
     }
 
     /**
      * Get the file record according to the value if set.
      *
-     * @return null|\SilverStripe\ORM\DataObject|ThreeQFile
+     * @return null|DataObject|ThreeQFile
      */
-    public function getFile()
+    public function getFile(): ?ThreeQFile
     {
-        if ($this->Value()) {
+        if (
+            $this->Value() &&
+            is_object($this->Value()) &&
+            get_class($this->Value()) === ThreeQFile::class &&
+            $this->Value()->exists()
+        ) {
             return $this->Value();
         }
 
         return null;
     }
 
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="setter">
+
     /**
      * Define the min length of search terms needed to execute the search.
      *
      * @param int $chars
+     *
      * @return $this
      */
-    public function setMinSearchChars($chars): ThreeQUploadField
+    public function setMinSearchChars(int $chars): ThreeQUploadField
     {
         $this->minSearchChars = $chars;
 
@@ -134,7 +177,7 @@ class ThreeQUploadField extends FormField
      *
      * @return $this
      */
-    public function setMaxFileSize($maxFileSize)
+    public function setMaxFileSize(int $maxFileSize): ThreeQUploadField
     {
         $this->maxFileSize = $maxFileSize;
 
@@ -142,25 +185,59 @@ class ThreeQUploadField extends FormField
     }
 
     /**
-     * Override the config timeout value for this field.
-     *
-     * @param int $timeout Timeout in seconds
-     *
-     * @return $this
+     * @return ThreeQUploadField
      */
-    public function setTimeout($timeout)
+    public function disableUploads(): ThreeQUploadField
     {
-        $this->timeout = $timeout;
+        $this->uploadsEnabled = false;
 
         return $this;
     }
 
     /**
+     * @return ThreeQUploadField
+     */
+    public function enableUploads(): ThreeQUploadField
+    {
+        $this->uploadsEnabled = true;
+
+        return $this;
+    }
+
+    // </editor-fold>
+
+    /**
+     * Helper function to get a new http response with proper header for json results.
+     *
+     * @param $body
+     *
+     * @return HTTPResponse
+     */
+    private function getJsonResponseObject($body = null): HTTPResponse
+    {
+        $response = HTTPResponse::create();
+        $response->addHeader('Access-Control-Allow-Origin', '*');
+        $response->addHeader('Content-Type', 'application/json');
+
+        if ($body) {
+            $response = $response->setBody($body);
+        }
+
+        return $response;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="endpoints">
+
+    /**
      * Endpoint for search requests.
      *
      * @param HTTPRequest $request
+     *
      * @return HTTPResponse
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @throws GuzzleException
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      */
     public function search(HTTPRequest $request): HTTPResponse
     {
@@ -180,10 +257,113 @@ class ThreeQUploadField extends FormField
             ];
         }
 
-        $response = HTTPResponse::create();
-        $response->addHeader('Access-Control-Allow-Origin', '*');
-        $response->addHeader('Content-Type', 'application/json');
-
-        return $response->setBody(json_encode($payload));
+        return $this->getJsonResponseObject(json_encode($payload));
     }
+
+    /**
+     * Endpoint after a file was selected.
+     *
+     * This will create the ThreeQFile record if necessary and return the flat version.
+     *
+     * @param HTTPRequest $request
+     *
+     * @return HTTPResponse
+     *
+     * @throws GuzzleException
+     * @throws ValidationException
+     */
+    public function selectFile(HTTPRequest $request): HTTPResponse
+    {
+        $data = json_decode($request->getBody(), true);
+        $response = $this->getJsonResponseObject();
+
+        if (!isset($data['fileId'])) {
+            return $response->setStatusCode(400)->setBody('missing_file_id');
+        }
+
+        return $response->setBody(json_encode(ThreeQFile::requireForThreeQId($data['fileId'])->flat()));
+    }
+
+    /**
+     * Get a upload url for a new file.
+     *
+     * @param HTTPRequest $request
+     * @return HTTPResponse
+     * @throws GuzzleException
+     */
+    public function getUploadUrl(HTTPRequest $request): HTTPResponse
+    {
+        $data = json_decode($request->getBody(), true);
+        $response = $this->getJsonResponseObject();
+
+        if (!isset($data['name']) || !is_string($data['name']) || trim($data['name']) === '') {
+            return $response->setStatusCode(400)->setBody('missing_name');
+        }
+
+        if (!isset($data['type']) || !is_string($data['type']) || trim($data['type']) === '') {
+            return $response->setStatusCode(400)->setBody('missing_file_type');
+        }
+
+        $name = trim($data['name']);
+        $type = Util::sanitizeFileType(trim($data['type']));
+
+        try {
+            return $response->setBody(ThreeQApiService::singleton()->getUploadUrl($name, $type));
+        } catch (\Exception $e) {
+            $response->setStatusCode(500);
+            return $response->setBody($e->getMessage());
+        }
+    }
+
+    /**
+     * Callback endpoint after successful file upload.
+     *
+     * This will create the ThreeQFile record and return the flat version.
+     *
+     * @param HTTPRequest $request
+     * @return HTTPResponse
+     * @throws GuzzleException
+     * @throws ValidationException
+     */
+    public function uploaded(HTTPRequest $request): HTTPResponse
+    {
+        $data = json_decode($request->getBody(), true);
+
+        if (!isset($data['fileId'])) {
+            return $this->getJsonResponseObject('missing_file_id')->setStatusCode(400);
+        }
+
+        return $this->getJsonResponseObject(json_encode(ThreeQFile::requireForThreeQId($data['fileId'])->flat()));
+    }
+
+    /**
+     * Trigger a sync with the 3Q api for the linked file (if exists).
+     *
+     * @param HTTPRequest $request
+     *
+     * @return HTTPResponse
+     *
+     * @throws GuzzleException
+     * @throws ValidationException
+     */
+    public function syncWithApi(HTTPRequest $request): HTTPResponse
+    {
+        $data = json_decode($request->getBody(), true);
+
+        if (isset($data['fileId'])) {
+            if ($file = ThreeQFile::byThreeQId($data['fileId'])) {
+                // Force api sync
+                $file->syncWithApi();
+            } else {
+                $file = ThreeQFile::requireForThreeQId($data['fileId']);
+            }
+
+            // Return (updated) flat file version, disable autoSync as we have forced a sync before
+            return $this->getJsonResponseObject(json_encode($file->flat(false)));
+        }
+
+        return $this->getJsonResponseObject()->setStatusCode(204);
+    }
+
+    // </editor-fold>
 }

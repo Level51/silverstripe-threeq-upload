@@ -19,26 +19,36 @@
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
-        spellcheck="false">
+        spellcheck="false"
+        :disabled="isUploadRunning">
     </vue-simple-suggest>
+
+    <div
+      v-if="isLoading"
+      class="threeQUpload-select-loadingIndicator">
+      <fa-icon
+        icon="spinner"
+        spin />
+    </div>
   </div>
 </template>
 
 <script>
 import VueSimpleSuggest from 'vue-simple-suggest/dist/cjs';
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   data() {
     return {
       term: '',
       selection: null,
+      isLoading: false,
     };
   },
   components: { VueSimpleSuggest },
   computed: {
-    ...mapState(['payload', 'file']),
+    ...mapState(['payload', 'file', 'isUploadRunning']),
     cleanTerm() {
       return this.term && typeof this.term === 'string' ? this.term.trim() : '';
     },
@@ -46,23 +56,31 @@ export default {
       return this.payload.config.searchEndpoint;
     },
   },
-  created() {
-    if (this.file) {
-      this.term = this.file.title;
-    }
-  },
   methods: {
-    selected(suggestion) {
-      this.$store.dispatch('setFile', suggestion);
+    ...mapActions(['setFile', 'showPreview']),
+    async selected(suggestion) {
+      this.isLoading = true;
+      const response = await axios.post(
+        this.payload.config.selectFileEndpoint,
+        {
+          fileId: suggestion.id,
+        },
+      );
+
+      this.setFile(response.data);
+      this.isLoading = false;
+      this.showPreview();
     },
     suggest() {
+      this.isLoading = true;
       return new Promise((resolve) => {
         if (this.cleanTerm.length < this.payload.config.minSearchChars) resolve([]);
         else {
           axios
-            .get(this.endpoint)
+            .get(`${this.endpoint}?query=${this.cleanTerm}`)
             .then((response) => {
               resolve(response.data);
+              this.isLoading = false;
             });
         }
       });
@@ -74,6 +92,20 @@ export default {
 <style lang="less">
 @import "~styles/base";
 .threeQUpload .threeQUpload-select {
+  position: relative;
+
+  .threeQUpload-select-loadingIndicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1.25rem;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   input[type=text] {
     display: block;
     width: 100%;
@@ -86,6 +118,7 @@ export default {
     box-shadow: none;
     -webkit-appearance: none;
     border-radius: @border-radius;
+    text-align: center;
 
     &:focus {
       border-color: @color-highlight;

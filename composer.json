@@ -1,7 +1,7 @@
 {
   "name": "level51/silverstripe-threeq-upload",
-  "version": "0.0.0",
-  "time": "2022-01-24",
+  "version": "0.1.0",
+  "time": "2022-01-31",
   "description": "SilverStripe module for file handling with 3Q SDN",
   "keywords": [
     "silverstripe",

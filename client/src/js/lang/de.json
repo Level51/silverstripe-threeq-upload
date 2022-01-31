@@ -1,5 +1,27 @@
 {
+  "preview": {
+    "meta": {
+      "title": "Titel",
+      "name": "Dateiname",
+      "size": "Größe"
+    },
+    "changeCta": "Andere Datei wählen",
+    "deleteCta": "Datei entfernen"
+  },
   "search": {
-    "placeholder": "Datei suchen"
+    "placeholder": "Suche nach Dateiname"
+  },
+  "generic": {
+    "cancelChange": "Aktuelle Datei behalten",
+    "orSelectHint": "oder"
+  },
+  "upload": {
+    "title": "Neue Datei hochladen",
+    "subTitle": "per Drag & Drop oder Klick"
+  },
+  "inThreeQProgress": {
+    "headline": "In Bearbeitung",
+    "description": "Die Datei wird noch bei 3Q bearbeitet",
+    "updateCta": "Status aktualisieren"
   }
 }
