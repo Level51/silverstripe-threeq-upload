@@ -1,6 +1,6 @@
 {
   "name": "level51/silverstripe-threeq-upload",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "time": "2022-01-31",
   "description": "SilverStripe module for file handling with 3Q SDN",
   "keywords": [
@@ -21,7 +21,7 @@
     "php": ">=7.3",
     "silverstripe/framework": "^4.7",
     "silverstripe/vendor-plugin": "^1.4",
-    "guzzlehttp/guzzle": "7.4.x-dev"
+    "guzzlehttp/guzzle": "^7.3"
   },
   "extra": {
     "installer-name": "silverstripe-threeq-upload",
