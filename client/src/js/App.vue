@@ -11,7 +11,7 @@
       <FilePreview />
     </template>
 
-    <template v-if="!previewVisible">
+    <template v-if="!previewVisible && canEdit">
       <template v-if="payload.config.uploadsEnabled">
         <FileUpload />
 
@@ -41,6 +41,10 @@
           </a>
         </div>
       </div>
+    </template>
+
+    <template v-if="!previewVisible && !canEdit">
+      {{ $t('readonly.noFile') }}
     </template>
 
     <input
@@ -74,7 +78,7 @@ export default {
   },
   computed: {
     ...mapState(['payload', 'message', 'previewVisible', 'file', 'isUploadRunning']),
-    ...mapGetters(['value']),
+    ...mapGetters(['value', 'canEdit']),
   },
   methods: {
     ...mapActions(['initStore', 'showPreview']),

@@ -23,5 +23,8 @@
     "headline": "In Bearbeitung",
     "description": "Die Datei wird noch bei 3Q bearbeitet",
     "updateCta": "Status aktualisieren"
+  },
+  "readonly": {
+    "noFile": "Keine Datei verfügbar"
   }
 }

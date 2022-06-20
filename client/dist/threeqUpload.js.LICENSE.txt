@@ -10,7 +10,7 @@
  */
 
 /*!
- * vue-i18n v8.27.0 
+ * vue-i18n v8.27.1 
  * (c) 2022 kazuya kawaguchi
  * Released under the MIT License.
  */
@@ -20,3 +20,5 @@
  * (c) 2021 Evan You
  * @license MIT
  */
+
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
