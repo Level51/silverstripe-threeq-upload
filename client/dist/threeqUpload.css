@@ -1,1 +1,197 @@
-.threeQUpload .threeQUpload-select{position:relative}.threeQUpload .threeQUpload-select .threeQUpload-select-loadingIndicator{align-items:center;display:flex;font-size:1.25rem;height:40px;justify-content:center;position:absolute;right:0;top:0;width:40px}.threeQUpload .threeQUpload-select input[type=text]{-webkit-appearance:none;background:#fff;border:1px solid #ced5e1;border-radius:5px;box-shadow:none;display:block;height:40px;outline:none;padding:10px;text-align:center;transition:all .25s ease-in-out;width:100%}.threeQUpload .threeQUpload-select input[type=text]:focus{border-color:#66afe9}.threeQUpload .threeQUpload-select .vue-simple-suggest{position:relative}.threeQUpload .threeQUpload-select .vue-simple-suggest>ul{list-style:none;margin:0;padding-left:0}.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions{background:hsla(0,0%,100%,.93);border:1px solid #66afe9;border-bottom-left-radius:5px;border-bottom-right-radius:5px;border-top:0;box-shadow:0 3px 5px rgba(0,0,0,.16);left:0;position:absolute;top:100%;width:100%;z-index:1000}.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions .suggest-item{-webkit-touch-callout:none;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions .suggest-item.hover,.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions .suggest-item.selected{background-color:#66afe9;color:#fff}.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions .misc-item,.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions .suggest-item{padding:10px}.threeQUpload .threeQUpload-uploader{margin-top:10px}.threeQUpload .threeQUpload-uploader .vue-dropzone{align-items:center;background:#fff;border:2px dashed #c1cad9;border-radius:5px;display:flex;height:68px;justify-content:center;padding:10px}.threeQUpload .threeQUpload-uploader .vue-dropzone.dz-clickable{cursor:pointer}.threeQUpload .threeQUpload-uploader .vue-dropzone.dz-drag-hover{box-shadow:inset 0 0 10px #c1cad9}.threeQUpload .threeQUpload-uploader .vue-dropzone .threeQUpload-uploader-content{text-align:center}.threeQUpload .threeQUpload-uploader .vue-dropzone .threeQUpload-uploader-content .threeQUpload-uploader-content-title{font-size:1.15rem;font-weight:700;margin:0}.threeQUpload .threeQUpload-uploader .vue-dropzone .threeQUpload-uploader-content .threeQUpload-uploader-content-subTitle{font-size:.875rem}.threeQUpload .threeQUpload-uploader .vue-dropzone.dz-started .dz-message{display:none}.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview{min-width:300px}.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-error-mark,.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-image,.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-success-mark{display:none}.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-details{display:flex;justify-content:center}.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-details .dz-size{margin-right:10px}.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-progress{background:#c1cad9;height:8px;margin-top:5px;position:relative;width:100%}.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-progress .dz-upload{background:#65ac1e;height:100%;left:0;position:absolute;top:0}.threeQUpload .threeQUpload-preview{border:1px solid #ced5e1}.threeQUpload .threeQUpload-preview .threeQUpload-preview-wrapper{display:flex}.threeQUpload .threeQUpload-preview .threeQUpload-preview-image{width:400px}.threeQUpload .threeQUpload-preview .threeQUpload-preview-image img{display:block;width:100%}.threeQUpload .threeQUpload-preview .threeQUpload-preview-inProgress{border-bottom:1px solid #ced5e1;padding:10px}.threeQUpload .threeQUpload-preview .threeQUpload-preview-inProgress .threeQUpload-preview-inProgress-headline{font-weight:700}.threeQUpload .threeQUpload-preview .threeQUpload-preview-meta{flex:1 1 auto;padding:15px}.threeQUpload .threeQUpload-preview .threeQUpload-preview-meta>div:not(:last-child){margin-bottom:10px}.threeQUpload .threeQUpload-preview .threeQUpload-preview-meta strong{display:block}.threeQUpload .threeQUpload-orSelectHint{font-size:1.25rem;font-weight:700;margin:10px 0;text-align:center}.threeQUpload .threeQUpload-keepFileHint .btn{font-size:1.15rem;font-weight:700}.threeQUpload .threeQUpload-keepFileHint .threeQUpload-keepFileHint-filename{font-size:.75rem;font-weight:400;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/less-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./client/src/js/components/FileSelect.vue?vue&type=style&index=0&lang=less& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+.threeQUpload .threeQUpload-select {
+  position: relative;
+}
+.threeQUpload .threeQUpload-select .threeQUpload-select-loadingIndicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.25rem;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.threeQUpload .threeQUpload-select input[type=text] {
+  display: block;
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  border: 1px solid #ced5e1;
+  background: #fff;
+  transition: all 250ms ease-in-out;
+  outline: none;
+  box-shadow: none;
+  -webkit-appearance: none;
+  border-radius: 5px;
+  text-align: center;
+}
+.threeQUpload .threeQUpload-select input[type=text]:focus {
+  border-color: #66afe9;
+}
+.threeQUpload .threeQUpload-select .vue-simple-suggest {
+  position: relative;
+}
+.threeQUpload .threeQUpload-select .vue-simple-suggest > ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 100%;
+  background: rgba(255, 255, 255, 0.93);
+  z-index: 1000;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.16);
+  border: 1px solid #66afe9;
+  border-top: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions .suggest-item {
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions .suggest-item.hover,
+.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions .suggest-item.selected {
+  background-color: #66afe9;
+  color: #fff;
+}
+.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions .suggest-item,
+.threeQUpload .threeQUpload-select .vue-simple-suggest .suggestions .misc-item {
+  padding: 10px;
+}
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/less-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./client/src/js/components/FileUpload.vue?vue&type=style&index=0&lang=less& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+.threeQUpload .threeQUpload-uploader {
+  margin-top: 10px;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone {
+  border: 2px dashed #c1cad9;
+  border-radius: 5px;
+  background: #fff;
+  padding: 10px;
+  height: 68px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone.dz-clickable {
+  cursor: pointer;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone.dz-drag-hover {
+  box-shadow: 0 0 10px inset #c1cad9;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .threeQUpload-uploader-content {
+  text-align: center;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .threeQUpload-uploader-content .threeQUpload-uploader-content-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .threeQUpload-uploader-content .threeQUpload-uploader-content-subTitle {
+  font-size: 0.875rem;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone.dz-started .dz-message {
+  display: none;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview {
+  min-width: 300px;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-image,
+.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-success-mark,
+.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-error-mark {
+  display: none;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-details {
+  display: flex;
+  justify-content: center;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-details .dz-size {
+  margin-right: 10px;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-progress {
+  width: 100%;
+  height: 8px;
+  position: relative;
+  margin-top: 5px;
+  background: #c1cad9;
+}
+.threeQUpload .threeQUpload-uploader .vue-dropzone .dz-preview .dz-progress .dz-upload {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #65ac1e;
+  height: 100%;
+}
+
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/less-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./client/src/js/components/FilePreview.vue?vue&type=style&index=0&lang=less& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************/
+.threeQUpload .threeQUpload-preview {
+  border: 1px solid #ced5e1;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-wrapper {
+  display: flex;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-image {
+  width: 400px;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-image img {
+  display: block;
+  width: 100%;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-inProgress {
+  padding: 10px;
+  border-bottom: 1px solid #ced5e1;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-inProgress .threeQUpload-preview-inProgress-headline {
+  font-weight: bold;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-meta {
+  flex: 1 1 auto;
+  padding: 15px;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-meta > div:not(:last-child) {
+  margin-bottom: 10px;
+}
+.threeQUpload .threeQUpload-preview .threeQUpload-preview-meta strong {
+  display: block;
+}
+
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/less-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./client/src/js/App.vue?vue&type=style&index=0&lang=less& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+.threeQUpload .threeQUpload-orSelectHint {
+  margin: 10px 0;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.threeQUpload .threeQUpload-keepFileHint .btn {
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+.threeQUpload .threeQUpload-keepFileHint .threeQUpload-keepFileHint-filename {
+  font-size: 0.75rem;
+  font-weight: normal;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/*# sourceMappingURL=threeqUpload.css.map*/

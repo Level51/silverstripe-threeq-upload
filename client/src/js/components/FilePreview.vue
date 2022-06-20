@@ -42,7 +42,7 @@
           {{ file.size.formatted }}
         </div>
 
-        <div>
+        <div v-if="canEdit">
           <a
             class="btn btn-outline-primary"
             href=""
@@ -69,7 +69,7 @@
 
 <script>
 import axios from 'axios';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -79,6 +79,7 @@ export default {
   },
   computed: {
     ...mapState(['file', 'payload']),
+    ...mapGetters(['canEdit']),
   },
   methods: {
     ...mapActions(['hidePreview', 'deleteFile', 'setFile']),

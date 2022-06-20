@@ -80,6 +80,7 @@ class ThreeQUploadField extends FormField
                 'value'           => $this->Value(),
                 'file'            => ($file = $this->getFile()) ? $file->flat() : null,
                 'title'           => $this->Title(),
+                'isReadonly'      => $this->isReadonly(),
                 'lang'            => substr(Security::getCurrentUser()->Locale, 0, 2),
                 'dropzoneOptions' => [
                     'maxFilesize'   => $this->getMaxFileSize(),

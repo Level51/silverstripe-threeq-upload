@@ -23,5 +23,8 @@
     "headline": "In progress",
     "description": "The file is still being processed by 3Q",
     "updateCta": "Update status"
+  },
+  "readonly": {
+    "noFile": "No file available"
   }
 }
