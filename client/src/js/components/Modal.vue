@@ -38,8 +38,8 @@ export default {
     handleKeyup(e) {
       if (e.target.nodeName === 'INPUT') return;
       if (e.keyCode === 27) { this.$emit('close'); }
-    }
-  }
+    },
+  },
 };
 </script>
 

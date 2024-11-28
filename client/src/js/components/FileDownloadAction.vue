@@ -30,7 +30,10 @@
                 <li
                   v-for="link in downloadLinks"
                   :key="link.key">
-                  <a :href="link.url" target="_blank" rel="noopener noreferrer">
+                  <a
+                    :href="link.url"
+                    target="_blank"
+                    rel="noopener noreferrer">
                     <span>
                       {{ link.key === 'source' ? $t('download.sourceFile') : link.key }}
                     </span>
@@ -51,8 +54,8 @@
 
 <script>
 import axios from 'axios';
+import { mapState } from 'vuex';
 import Modal from './Modal.vue';
-import { mapState } from "vuex";
 
 export default {
   data() {
@@ -60,7 +63,7 @@ export default {
       isDownloadModalVisible: false,
       loading: false,
       downloadLinks: [],
-    }
+    };
   },
   components: {
     Modal,
@@ -84,9 +87,9 @@ export default {
           url: response.data[key],
         }));
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less">
