@@ -22,7 +22,7 @@ use SilverStripe\View\Requirements;
  */
 class ThreeQUploadField extends FormField
 {
-    private static $allowed_actions = ['search', 'getUploadUrl', 'uploaded', 'selectFile', 'syncWithApi'];
+    private static $allowed_actions = ['search', 'getUploadUrl', 'uploaded', 'selectFile', 'syncWithApi', 'getDownloadLinks'];
 
     /**
      * @var int Max file size in MB, overrides the config value if set
@@ -84,7 +84,7 @@ class ThreeQUploadField extends FormField
                 'lang'            => substr(Security::getCurrentUser()->Locale, 0, 2),
                 'dropzoneOptions' => [
                     'maxFilesize'   => $this->getMaxFileSize(),
-                    'acceptedFiles' => $this->getAllowedFileTypesForFrontend()
+                    'acceptedFiles' => $this->getAllowedFileTypesForFrontend(),
                 ],
                 'config'          => [
                     'uploadsEnabled'          => $this->getUploadsEnabledState(),
@@ -93,9 +93,10 @@ class ThreeQUploadField extends FormField
                     'selectFileEndpoint'      => $this->Link('selectFile'),
                     'uploadUrlEndpoint'       => $this->Link('getUploadUrl'),
                     'successCallbackEndpoint' => $this->Link('uploaded'),
-                    'syncWithApiEndpoint'     => $this->Link('syncWithApi')
-                ]
-            ]
+                    'syncWithApiEndpoint'     => $this->Link('syncWithApi'),
+                    'getDownloadLinks'        => $this->Link('getDownloadLinks'),
+                ],
+            ],
         );
     }
 
@@ -254,7 +255,7 @@ class ThreeQUploadField extends FormField
 
             $payload[] = [
                 'id'    => $file['Id'],
-                'title' => $title
+                'title' => $title,
             ];
         }
 
@@ -361,6 +362,27 @@ class ThreeQUploadField extends FormField
 
             // Return (updated) flat file version, disable autoSync as we have forced a sync before
             return $this->getJsonResponseObject(json_encode($file->flat(false)));
+        }
+
+        return $this->getJsonResponseObject()->setStatusCode(204);
+    }
+
+    /**
+     * Get the download links for the given file.
+     *
+     * @param HTTPRequest $request
+     * @return HTTPResponse
+     */
+    public function getDownloadLinks(HTTPRequest $request): HTTPResponse
+    {
+        $data = json_decode($request->getBody(), true);
+
+        if (isset($data['fileId'])) {
+            $outputs = ThreeQApiService::singleton()->getFileOutputs($data['fileId']);
+
+            if ($outputs && isset($outputs['Download'])) {
+                return $this->getJsonResponseObject(json_encode($outputs['Download']));
+            }
         }
 
         return $this->getJsonResponseObject()->setStatusCode(204);

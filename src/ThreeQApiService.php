@@ -37,9 +37,9 @@ class ThreeQApiService
             [
                 'base_uri' => 'https://sdn.3qsdn.com/api/v2/',
                 'headers'  => [
-                    'X-AUTH-APIKEY' => $apiKey
-                ]
-            ]
+                    'X-AUTH-APIKEY' => $apiKey,
+                ],
+            ],
         );
     }
 
@@ -77,9 +77,9 @@ class ThreeQApiService
                     'projects/' . $this->getProjectId() . '/files',
                     [
                         'query' => [
-                            'includeMetadata' => true
-                        ]
-                    ]
+                            'includeMetadata' => true,
+                        ],
+                    ],
                 );
 
             $result = $response->getBody()->getContents();
@@ -137,10 +137,10 @@ class ThreeQApiService
                 'projects/' . $this->getProjectId() . '/files',
                 [
                     'json' => [
-                        'FileName' => $filename,
-                        'FileFormat' => $filetype
-                    ]
-                ]
+                        'FileName'   => $filename,
+                        'FileFormat' => $filetype,
+                    ],
+                ],
             );
 
         return $response->getHeader('Location')[0];
@@ -161,14 +161,39 @@ class ThreeQApiService
     {
         try {
             $response = $this->httpClient
-                ->get(
-                    'projects/' . $this->getProjectId() . '/files/' . $fileId . '/playouts'
-                );
+                ->get('projects/' . $this->getProjectId() . '/files/' . $fileId . '/playouts');
 
             $result = $response->getBody()->getContents();
             $result = json_decode($result, true);
 
             return $result['FilePlayouts'] ?? [];
+        } catch (\Exception $e) {
+            // TODO error handling
+            return [];
+        }
+    }
+
+    /**
+     * Get a list of all output URIs of the given file.
+     *
+     * @param string|int $fileId
+     *
+     * @return array
+     *
+     * @throws GuzzleException
+     *
+     * @see https://sdn.3qsdn.com/api/doc#/04.05%20File%20-%20Output/get_api2_qmsdn_api2_projectfileoutput_get
+     */
+    public function getFileOutputs($fileId)
+    {
+        try {
+            $response = $this->httpClient
+                ->get('projects/' . $this->getProjectId() . '/files/' . $fileId . '/output');
+
+            $result = $response->getBody()->getContents();
+            $result = json_decode($result, true);
+
+            return $result['FileOutputURIs'] ?? [];
         } catch (\Exception $e) {
             // TODO error handling
             return [];

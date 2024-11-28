@@ -1,4 +1,10 @@
 {
+  "download": {
+    "cta": "Download",
+    "modalTitle": "Datei herunterladen",
+    "emptyInfo": "Keine Download Links gefunden.",
+    "sourceFile": "Original Datei"
+  },
   "preview": {
     "meta": {
       "title": "Titel",
