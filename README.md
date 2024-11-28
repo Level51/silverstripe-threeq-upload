@@ -17,7 +17,7 @@ THREEQ_PROJECT_ID=""
 ```
 
 ## Requirements
-- Silverstripe ^4.7
+- Silverstripe ^4.7 | ^5
 - PHP >= 7.3
 - API access for 3Q
 
