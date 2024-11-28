@@ -53,7 +53,7 @@
                         :title="$t('download.clipboardTooltip')"
                         @click.prevent="copy()">
                         <fa-icon
-                          :icon="copied ? 'check' : 'copy'"/>
+                          :icon="copied ? 'check' : 'copy'" />
                       </a>
                     </UseClipboard>
                   </div>
@@ -80,8 +80,8 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-import Modal from './Modal.vue';
 import { UseClipboard } from '@vueuse/components';
+import Modal from './Modal.vue';
 
 export default {
   data() {

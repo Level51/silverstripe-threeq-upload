@@ -8,9 +8,7 @@ import getters from './getters';
 Vue.use(Vuex);
 
 const createStore = () => new Vuex.Store({
-  state: () => {
-    return { ...state };
-  },
+  state: () => ({ ...state }),
   actions,
   mutations,
   getters,

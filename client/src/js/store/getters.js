@@ -4,5 +4,5 @@ export default {
   },
   canEdit(state) {
     return !state.payload.isReadonly;
-  }
+  },
 };
