@@ -210,18 +210,33 @@
 }
 .threeQUpload .threeQUpload-downloadAction .threeQUpload-downloadModal ul li {
   display: flex;
+  align-items: center;
+  padding: 10px 5px;
 }
 .threeQUpload .threeQUpload-downloadAction .threeQUpload-downloadModal ul li:not(:last-child) {
   border-bottom: 1px solid #ced5e1;
 }
-.threeQUpload .threeQUpload-downloadAction .threeQUpload-downloadModal ul li a {
-  display: flex;
-  width: 100%;
-  padding: 10px 0;
-  color: #333333;
-}
-.threeQUpload .threeQUpload-downloadAction .threeQUpload-downloadModal ul li a > :first-child {
+.threeQUpload .threeQUpload-downloadAction .threeQUpload-downloadModal ul li div.title {
   flex: 1 1 auto;
+}
+.threeQUpload .threeQUpload-downloadAction .threeQUpload-downloadModal ul li div.actions {
+  --action-size: 25px;
+  flex: none;
+  display: flex;
+  gap: 10px;
+}
+.threeQUpload .threeQUpload-downloadAction .threeQUpload-downloadModal ul li div.actions a {
+  color: #333333;
+  transition: color 200ms ease-in-out;
+  width: var(--action-size);
+  height: var(--action-size);
+  line-height: var(--action-size);
+  border: 1px solid;
+  text-align: center;
+  border-radius: 4px;
+}
+.threeQUpload .threeQUpload-downloadAction .threeQUpload-downloadModal ul li div.actions a:hover {
+  color: #0071c4;
 }
 
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************!*\

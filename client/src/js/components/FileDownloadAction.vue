@@ -30,15 +30,33 @@
                 <li
                   v-for="link in downloadLinks"
                   :key="link.key">
-                  <a
-                    :href="link.url"
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    <span>
-                      {{ link.key === 'source' ? $t('download.sourceFile') : link.key }}
-                    </span>
-                    <fa-icon icon="download" />
-                  </a>
+                  <div class="title">
+                    {{ link.key === 'source' ? $t('download.sourceFile') : link.key }}
+                  </div>
+
+                  <div class="actions">
+                    <a
+                      :href="link.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      :title="$t('download.downloadTooltip')">
+                      <fa-icon icon="download" />
+                    </a>
+
+                    <UseClipboard
+                      v-slot="{ copy, copied }"
+                      :source="link.url">
+                      <a
+                        :href="link.url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        :title="$t('download.clipboardTooltip')"
+                        @click.prevent="copy()">
+                        <fa-icon
+                          :icon="copied ? 'check' : 'copy'"/>
+                      </a>
+                    </UseClipboard>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -48,6 +66,13 @@
           </div>
         </div>
       </div>
+      <template slot="footer">
+        <button
+          class="btn btn-outline-secondary"
+          @click="isDownloadModalVisible = false">
+          {{ $t('download.closeModal') }}
+        </button>
+      </template>
     </Modal>
   </div>
 </template>
@@ -56,6 +81,7 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import Modal from './Modal.vue';
+import { UseClipboard } from '@vueuse/components';
 
 export default {
   data() {
@@ -67,6 +93,7 @@ export default {
   },
   components: {
     Modal,
+    UseClipboard,
   },
   computed: {
     ...mapState(['file', 'payload']),
@@ -107,19 +134,36 @@ export default {
 
       li {
         display: flex;
+        align-items: center;
+        padding: @space-2 @space-1;
 
         &:not(:last-child) {
           border-bottom: 1px solid @color-light-grey;
         }
 
-        a {
-          display: flex;
-          width: 100%;
-          padding: @space-2 0;
-          color: @color-mono-20;
+        div.title {
+          flex: 1 1 auto;
+        }
 
-          > :first-child {
-            flex: 1 1 auto;
+        div.actions {
+          --action-size: 25px;
+          flex: none;
+          display: flex;
+          gap: @space-2;
+
+          a {
+            color: @color-mono-20;
+            transition: color 200ms ease-in-out;
+            width: var(--action-size);
+            height: var(--action-size);
+            line-height: var(--action-size);
+            border: 1px solid;
+            text-align: center;
+            border-radius: 4px;
+
+            &:hover {
+              color: @color-blue-primary;
+            }
           }
         }
       }
