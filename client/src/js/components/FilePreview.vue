@@ -42,15 +42,19 @@
           {{ file.size.formatted }}
         </div>
 
-        <div v-if="canEdit">
+        <div class="actions">
           <a
+            v-if="canEdit"
             class="btn btn-outline-primary"
             href=""
             @click.prevent="hidePreview">
             {{ $t('preview.changeCta') }}
           </a>
 
+          <FileDownloadAction />
+
           <a
+            v-if="canEdit"
             class="btn btn-outline-danger"
             href=""
             @click.prevent="deleteFile">
@@ -70,13 +74,16 @@
 <script>
 import axios from 'axios';
 import { mapState, mapGetters, mapActions } from 'vuex';
+import FileDownloadAction from './FileDownloadAction.vue';
 
 export default {
   data() {
     return {
       isSyncing: false,
+      isDownloadModalVisible: false,
     };
   },
+  components: { FileDownloadAction },
   computed: {
     ...mapState(['file', 'payload']),
     ...mapGetters(['canEdit']),
@@ -128,6 +135,12 @@ export default {
       &:not(:last-child) {
         margin-bottom: @space-2;
       }
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: @space-2;
     }
 
     strong {

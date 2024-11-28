@@ -2,6 +2,7 @@
 
 namespace Level51\ThreeQ;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Container\NotFoundExceptionInterface;
@@ -37,9 +38,9 @@ class ThreeQApiService
             [
                 'base_uri' => 'https://sdn.3qsdn.com/api/v2/',
                 'headers'  => [
-                    'X-AUTH-APIKEY' => $apiKey
-                ]
-            ]
+                    'X-AUTH-APIKEY' => $apiKey,
+                ],
+            ],
         );
     }
 
@@ -77,9 +78,9 @@ class ThreeQApiService
                     'projects/' . $this->getProjectId() . '/files',
                     [
                         'query' => [
-                            'includeMetadata' => true
-                        ]
-                    ]
+                            'includeMetadata' => true,
+                        ],
+                    ],
                 );
 
             $result = $response->getBody()->getContents();
@@ -88,7 +89,7 @@ class ThreeQApiService
             $cache->set($cacheKey, $result, 300);
 
             return $result;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // TODO error handling
             return [];
         }
@@ -110,7 +111,7 @@ class ThreeQApiService
                 ->get('projects/' . $this->getProjectId() . '/files/' . $id);
 
             return json_decode($response->getBody()->getContents(), true);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // TODO error handling
             return null;
         }
@@ -137,10 +138,10 @@ class ThreeQApiService
                 'projects/' . $this->getProjectId() . '/files',
                 [
                     'json' => [
-                        'FileName' => $filename,
-                        'FileFormat' => $filetype
-                    ]
-                ]
+                        'FileName'   => $filename,
+                        'FileFormat' => $filetype,
+                    ],
+                ],
             );
 
         return $response->getHeader('Location')[0];
@@ -161,15 +162,40 @@ class ThreeQApiService
     {
         try {
             $response = $this->httpClient
-                ->get(
-                    'projects/' . $this->getProjectId() . '/files/' . $fileId . '/playouts'
-                );
+                ->get('projects/' . $this->getProjectId() . '/files/' . $fileId . '/playouts');
 
             $result = $response->getBody()->getContents();
             $result = json_decode($result, true);
 
             return $result['FilePlayouts'] ?? [];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
+            // TODO error handling
+            return [];
+        }
+    }
+
+    /**
+     * Get a list of all output URIs of the given file.
+     *
+     * @param string|int $fileId
+     *
+     * @return array
+     *
+     * @throws GuzzleException
+     *
+     * @see https://sdn.3qsdn.com/api/doc#/04.05%20File%20-%20Output/get_api2_qmsdn_api2_projectfileoutput_get
+     */
+    public function getFileOutputs($fileId)
+    {
+        try {
+            $response = $this->httpClient
+                ->get('projects/' . $this->getProjectId() . '/files/' . $fileId . '/output');
+
+            $result = $response->getBody()->getContents();
+            $result = json_decode($result, true);
+
+            return $result['FileOutputURIs'] ?? [];
+        } catch (Exception $e) {
             // TODO error handling
             return [];
         }

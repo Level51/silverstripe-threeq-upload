@@ -1,4 +1,13 @@
 {
+  "download": {
+    "cta": "Download",
+    "modalTitle": "Download file",
+    "emptyInfo": "No download links found.",
+    "sourceFile": "Source file",
+    "downloadTooltip": "Download file",
+    "clipboardTooltip": "Copy the download link to the clipboard",
+    "closeModal": "Done"
+  },
   "preview": {
     "meta": {
       "title": "Title",

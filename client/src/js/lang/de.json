@@ -1,4 +1,13 @@
 {
+  "download": {
+    "cta": "Download",
+    "modalTitle": "Datei herunterladen",
+    "emptyInfo": "Keine Download Links gefunden.",
+    "sourceFile": "Original Datei",
+    "downloadTooltip": "Datei herunterladen",
+    "clipboardTooltip": "Download-Link in die Zwischenablage kopieren",
+    "closeModal": "Fertig"
+  },
   "preview": {
     "meta": {
       "title": "Titel",
