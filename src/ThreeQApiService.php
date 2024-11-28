@@ -2,6 +2,7 @@
 
 namespace Level51\ThreeQ;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Container\NotFoundExceptionInterface;
@@ -88,7 +89,7 @@ class ThreeQApiService
             $cache->set($cacheKey, $result, 300);
 
             return $result;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // TODO error handling
             return [];
         }
@@ -110,7 +111,7 @@ class ThreeQApiService
                 ->get('projects/' . $this->getProjectId() . '/files/' . $id);
 
             return json_decode($response->getBody()->getContents(), true);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // TODO error handling
             return null;
         }
@@ -167,7 +168,7 @@ class ThreeQApiService
             $result = json_decode($result, true);
 
             return $result['FilePlayouts'] ?? [];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // TODO error handling
             return [];
         }
@@ -194,7 +195,7 @@ class ThreeQApiService
             $result = json_decode($result, true);
 
             return $result['FileOutputURIs'] ?? [];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // TODO error handling
             return [];
         }

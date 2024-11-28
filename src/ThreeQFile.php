@@ -33,7 +33,7 @@ class ThreeQFile extends DataObject
         'Size'       => 'Float',
         'Length'     => 'Float',
         'IsFinished' => 'Boolean',
-        'PlayoutId'  => 'Text'
+        'PlayoutId'  => 'Text',
     ];
 
     // TODO on before delete handling?!
@@ -64,8 +64,8 @@ class ThreeQFile extends DataObject
             'playoutId'  => $this->fetchPlayoutId(),
             'size'       => [
                 'raw'       => $this->Size,
-                'formatted' => File::format_size($this->Size)
-            ]
+                'formatted' => File::format_size($this->Size),
+            ],
         ];
     }
 

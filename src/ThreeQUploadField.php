@@ -2,6 +2,7 @@
 
 namespace Level51\ThreeQ;
 
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
@@ -311,7 +312,7 @@ class ThreeQUploadField extends FormField
 
         try {
             return $response->setBody(ThreeQApiService::singleton()->getUploadUrl($name, $type));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $response->setStatusCode(500);
             return $response->setBody($e->getMessage());
         }
